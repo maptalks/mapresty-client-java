@@ -1,12 +1,3 @@
-#commercial modules
-engine-common-draw2d/
-engine-dynamic/
-enging-manage/
-engine-server/
-engine-service/
-engine-snap/
-engine-manage/
-
 ### Eclipse template
 *.pydevproject
 .metadata
