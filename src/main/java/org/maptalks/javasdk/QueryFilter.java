@@ -26,6 +26,7 @@ public class QueryFilter {
 	 */
 	private String[] resultFields;
 
+    private boolean returnGeometry = true;
 
 	public String getCondition() {
 		return condition;
@@ -58,4 +59,15 @@ public class QueryFilter {
 	public void setCoordinateType(String coordinateType) {
 		this.coordinateType = coordinateType;
 	}
+
+    /**
+     * 是否返回Geometry,默认为true
+     */
+    public boolean isReturnGeometry() {
+        return returnGeometry;
+    }
+
+    public void setReturnGeometry(boolean returnGeometry) {
+        this.returnGeometry = returnGeometry;
+    }
 }

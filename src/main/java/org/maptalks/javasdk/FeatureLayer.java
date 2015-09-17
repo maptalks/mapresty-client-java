@@ -10,6 +10,7 @@ import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
 import org.maptalks.javasdk.utils.ArrayUtils;
+import org.maptalks.javasdk.ErrorCodes;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -301,30 +302,6 @@ public class FeatureLayer extends Layer {
 	}
 
 	/**
-	 * 查询符合条件的Feature数据的自定义属性，返回为自定义属性的json字符串，适用于只需要查询自定义属性数据的应用场景
-	 * @param queryFilter
-     * @param page
-     * @param count
-	 * @return
-	 * @throws IOException
-	 * @throws RestException
-	 */
-	public String queryProperties(QueryFilter queryFilter, int page,
-			int count) throws IOException, RestException {
-        if (page < 0 || count <= 0) {
-            return null;
-        }
-        String url = this.restURL + "layers/"+this.getId()+"/data?op=queryAttributes";
-        final Map<String, String> params = FeatureLayer
-                .prepareFilterParameters(queryFilter);
-        params.put("page", page + "");
-        params.put("count", count + "");
-
-
-        return HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
-	}
-
-	/**
 	 * 统计结果数
 	 * @param queryFilter
 	 * @return
@@ -349,9 +326,9 @@ public class FeatureLayer extends Layer {
 			return new HashMap<String, String>();
 		}
 		final Map<String, String> params = new HashMap<String, String>();
-		String attributeCond = queryFilter.getCondition();
-		if (attributeCond != null && attributeCond.length() > 0) {
-			params.put("attributeCond", attributeCond);
+		String condition = queryFilter.getCondition();
+		if (condition != null && condition.length() > 0) {
+			params.put("condition", condition);
 		}
 		SpatialFilter spatialFilter = queryFilter.getSpatialFilter();
 		if (spatialFilter != null && spatialFilter.getGeometry() != null) {
@@ -362,14 +339,13 @@ public class FeatureLayer extends Layer {
 		if (retCoordinateType != null) {
 			params.put("coordinateType", retCoordinateType.toString());
 		}
-		if (queryFilter.isWithSymbol()) {
-			params.put("needsymbol", queryFilter.isWithSymbol() + "");
+		if (queryFilter.isReturnGeometry()) {
+			params.put("returnGeometry", queryFilter.isReturnGeometry() + "");
 		}
 		String[] fields = queryFilter.getResultFields();
 		if (fields != null) {
 			params.put("fields", ArrayUtils.join(fields));
 		}
-
 		return params;
 	}
 }
