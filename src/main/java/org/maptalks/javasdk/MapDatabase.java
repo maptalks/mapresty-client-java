@@ -5,6 +5,8 @@ import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
 import org.maptalks.javasdk.db.Layer;
+import org.maptalks.javasdk.http.RestResult;
+import org.maptalks.javasdk.utils.JsonUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,8 +45,16 @@ public class MapDatabase {
      * 获取空间库的信息
      * @return
      */
-    public DBInfo getDatabaseInfo() {
-        return null;
+    public DBInfo getDatabaseInfo() throws IOException, RestException {
+        final String url = this.dbRestURL;
+        final String resultData = HttpRestClient.doGet(url, null, this.useGZIP);
+        RestResult result = JSON.parseObject(resultData, RestResult.class);
+        if (!result.isSuccess()) {
+            throw new RestException(result.getErrCode(), result.getError());
+        }
+        DBInfo dbInfo =  JSON.parseObject(result.getData(), DBInfo.class);
+        dbInfo.setName(this.db);
+        return dbInfo;
     }
 
     /**
@@ -56,7 +66,7 @@ public class MapDatabase {
      */
     public List<Layer> getLayerInfo() throws IOException, RestException {
         final String url = this.dbRestURL + "layers";
-        final List rest = HttpRestClient.doParseGet(url, null, Layer.class,
+        final List rest = HttpRestClient.doGetList(url, null, Layer.class,
                 useGZIP);
         return rest;
     }
@@ -74,7 +84,7 @@ public class MapDatabase {
             return null;
         }
         final String url = this.dbRestURL + "layers/"+id;
-        final List rest = HttpRestClient.doParseGet(url, null, Layer.class,
+        final List rest = HttpRestClient.doGetList(url, null, Layer.class,
                 useGZIP);
         if (rest == null || rest.size() == 0) {
             return null;

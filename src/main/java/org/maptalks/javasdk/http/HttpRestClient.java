@@ -21,8 +21,8 @@ import java.util.zip.GZIPInputStream;
 
 public class HttpRestClient {
 
-	public static String _doGet(final String url,
-			final Map<String, String> data, final boolean useGzip)
+	public static String doGet(final String url,
+                               final Map<String, String> data, final boolean useGzip)
 			throws IOException, RestException {
 		URL u = null;
 		HttpURLConnection con = null;
@@ -73,7 +73,7 @@ public class HttpRestClient {
 	 * @throws IOException
 	 */
 	private static BufferedReader getConReader(final HttpURLConnection con)
-			throws UnsupportedEncodingException, IOException {
+			throws IOException {
 		BufferedReader br = null;
 		final String contentEncoding = con.getContentEncoding();
 		if ("gzip".equals(contentEncoding)) {
@@ -86,10 +86,10 @@ public class HttpRestClient {
 		return br;
 	}
 
-	public static List doParseGet(final String url,
-			final Map<String, String> data, final Class clazz,
-			final boolean useGzip) throws IOException, RestException {
-		final String resultData = _doGet(url, data, useGzip);
+	public static List doGetList(final String url,
+                                 final Map<String, String> data, final Class clazz,
+                                 final boolean useGzip) throws IOException, RestException {
+		final String resultData = doGet(url, data, useGzip);
 		RestResult result = JSON.parseObject(resultData, RestResult.class);
 		if (!result.isSuccess()) {
 			throw new RestException(result.getErrCode(), result.getError());

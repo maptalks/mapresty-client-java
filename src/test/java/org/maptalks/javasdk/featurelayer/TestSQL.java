@@ -1,6 +1,7 @@
 package org.maptalks.javasdk.featurelayer;
 
 import org.maptalks.javasdk.MapDatabase;
+import org.maptalks.javasdk.Settings;
 import org.maptalks.javasdk.featurelayer.common.TestCRUD;
 
 /**
@@ -9,7 +10,7 @@ import org.maptalks.javasdk.featurelayer.common.TestCRUD;
 public class TestSQL extends TestCRUD{
     @Override
     protected MapDatabase getMapDatabase() {
-        MapDatabase db = new MapDatabase("localhost",8090,"mysql");
+        MapDatabase db = new MapDatabase(Settings.TEST_HOST, Settings.TEST_PORT, Settings.TEST_DB);
         return db;
     }
 

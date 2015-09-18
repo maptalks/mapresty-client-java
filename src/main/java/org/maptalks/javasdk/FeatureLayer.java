@@ -1,7 +1,6 @@
 package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.db.CoordinateType;
@@ -11,7 +10,6 @@ import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
 import org.maptalks.javasdk.utils.ArrayUtils;
-import org.maptalks.javasdk.ErrorCodes;
 import org.maptalks.javasdk.utils.JsonUtils;
 
 import java.io.IOException;
@@ -123,7 +121,7 @@ public class FeatureLayer extends Layer {
      */
     public List<LayerField> getLayerFields() throws IOException, RestException {
         final String url = this.restURL + "layers/"+this.getId()+"/fields";
-        final List<LayerField> rest = HttpRestClient.doParseGet(url, null,
+        final List<LayerField> rest = HttpRestClient.doGetList(url, null,
                 LayerField.class, this.mapDatabase.isUseGZIP());
         if (rest == null || rest.size() == 0)
             return null;

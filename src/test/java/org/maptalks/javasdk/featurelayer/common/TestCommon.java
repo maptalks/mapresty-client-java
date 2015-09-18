@@ -4,6 +4,7 @@ package org.maptalks.javasdk.featurelayer.common;
  * Created by fuzhen on 2015/6/26.
  */
 public abstract class TestCommon {
+
     /**
      * 生成条件为等于的条件判断查询语句
      * 例如SQL数据库是 field='value'
