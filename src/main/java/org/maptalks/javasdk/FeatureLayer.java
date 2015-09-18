@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
+import org.maptalks.javasdk.db.CoordinateType;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
@@ -11,6 +12,7 @@ import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
 import org.maptalks.javasdk.utils.ArrayUtils;
 import org.maptalks.javasdk.ErrorCodes;
+import org.maptalks.javasdk.utils.JsonUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -71,7 +73,7 @@ public class FeatureLayer extends Layer {
             return;
         final String url = this.restURL + "layers/"+this.getId()+"/fields?op=create";
         final Map<String, String> param = new HashMap<String, String>();
-        param.put("data", JSON.toJSONString(field));
+        param.put("data", JsonUtils.toJsonString(field));
         HttpRestClient.doPost(url, param, this.mapDatabase.isUseGZIP());
         return;
     }
@@ -141,7 +143,7 @@ public class FeatureLayer extends Layer {
             throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
                     "Geometry  is null");
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=create";
-        postRequest(url, toJSONString(feature));
+        postRequest(url, JsonUtils.toJsonString(feature));
     }
 
     /**
@@ -157,7 +159,7 @@ public class FeatureLayer extends Layer {
             throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
                     "Geometry  is null");
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=create";
-        postRequest(url, toJSONString(features));
+        postRequest(url, JsonUtils.toJsonString(features));
     }
 
     /**
@@ -170,28 +172,17 @@ public class FeatureLayer extends Layer {
      */
     public void update(String condition, final Feature feature)
             throws IOException, RestException {
-        if (feature == null
-                || feature.getId() == null) {
+        if (feature == null) {
             throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "Geometry identifier is null");
+                    "feature is null");
         }
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=update";
         final Map<String, String> params = new HashMap<String, String>();
-        params.put("data", toJSONString(feature));
+        params.put("data", JsonUtils.toJsonString(feature));
         params.put("condition", condition);
         HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
     }
 
-    public static String toJSONString(final Object obj) {
-        if (obj == null) {
-            return null;
-        }
-        if (obj instanceof String) {
-            return (String) obj;
-        }
-        final SerializerFeature[] features = { SerializerFeature.DisableCircularReferenceDetect };
-        return JSON.toJSONString(obj, features);
-    }
 
     /**
      * 删除符合查询条件的Feature
@@ -239,7 +230,7 @@ public class FeatureLayer extends Layer {
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=update";
         final Map<String, String> params = new HashMap<String, String>();
         params.put("condition", condition);
-        params.put("data", toJSONString(properties));
+        params.put("data", JsonUtils.toJsonString(properties));
 
         HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
     }
@@ -332,10 +323,10 @@ public class FeatureLayer extends Layer {
         }
         SpatialFilter spatialFilter = queryFilter.getSpatialFilter();
         if (spatialFilter != null && spatialFilter.getGeometry() != null) {
-            params.put("spatialFilter", toJSONString(spatialFilter));
+            params.put("spatialFilter", JsonUtils.toJsonString(spatialFilter));
         }
 
-        String retCoordinateType = queryFilter.getCoordinateType();
+        CoordinateType retCoordinateType = queryFilter.getCoordinateType();
         if (retCoordinateType != null) {
             params.put("coordinateType", retCoordinateType.toString());
         }

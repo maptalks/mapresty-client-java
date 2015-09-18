@@ -1,5 +1,12 @@
 package org.maptalks.javasdk;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.deserializer.ExtraProcessor;
+import org.maptalks.gis.core.geojson.Geometry;
+import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
+import org.maptalks.javasdk.db.CoordinateType;
+
 public class QueryFilter {
     /**
      * 全部自定义属性,即查询结果返回所有的自定义属性 例子:  queryFilter.setResultFields(QueryFilter.ALL_FIELDS);
@@ -19,7 +26,7 @@ public class QueryFilter {
     /**
      * 坐标系类型
      */
-    private String coordinateType;
+    private CoordinateType coordinateType;
 
     /**
      * 要返回的自定义属性
@@ -52,11 +59,11 @@ public class QueryFilter {
         this.resultFields = resultFields;
     }
 
-    public String getCoordinateType() {
+    public CoordinateType getCoordinateType() {
         return coordinateType;
     }
 
-    public void setCoordinateType(String coordinateType) {
+    public void setCoordinateType(CoordinateType coordinateType) {
         this.coordinateType = coordinateType;
     }
 
@@ -69,5 +76,23 @@ public class QueryFilter {
 
     public void setReturnGeometry(boolean returnGeometry) {
         this.returnGeometry = returnGeometry;
+    }
+
+    public static QueryFilter create(String json) {
+        QueryFilter filter = JSON.parseObject(json, QueryFilter.class, new ExtraProcessor() {
+
+            public void processExtra(Object o, String s, Object value) {
+                if ("geometry".equals(s)) {
+                    String type = ((JSONObject) value).getString("type");
+                    if (type != null) {
+                        Class clazz = GeoJSONFactory.getGeoJsonType(type);
+                        Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) value), clazz);
+                        ((SpatialFilter) o).setFilterGeometry(geo);
+                    }
+
+                }
+            }
+        });
+        return filter;
     }
 }

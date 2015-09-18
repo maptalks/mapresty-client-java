@@ -1,10 +1,14 @@
 package org.maptalks.javasdk;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.deserializer.ExtraProcessor;
 import org.maptalks.gis.core.geojson.Geometry;
+import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 
 /**
- * 空间查询条件�?
+ * 空间查询条件类
  * @author fuzhen
  *
  */
@@ -47,7 +51,7 @@ public class SpatialFilter {
         return geometry;
     }
 
-    public void setGeometry(final Geometry geometry) {
+    public void setFilterGeometry(final Geometry geometry) {
         this.geometry = geometry;
     }
 
@@ -57,5 +61,28 @@ public class SpatialFilter {
 
     public void setRelation(final int relation) {
         this.relation = relation;
+    }
+
+    /**
+     * 解析json字符串生成SpatialFilter
+     * @param json
+     * @return
+     */
+    public static SpatialFilter create(String json) {
+        SpatialFilter filter = JSON.parseObject(json, SpatialFilter.class, new ExtraProcessor() {
+
+            public void processExtra(Object o, String s, Object value) {
+                if ("geometry".equals(s)) {
+                    String type = ((JSONObject) value).getString("type");
+                    if (type != null) {
+                        Class clazz = GeoJSONFactory.getGeoJsonType(type);
+                        Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) value), clazz);
+                        ((SpatialFilter) o).setFilterGeometry(geo);
+                    }
+
+                }
+            }
+        });
+        return filter;
     }
 }

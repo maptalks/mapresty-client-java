@@ -35,7 +35,7 @@ public class MapDatabase {
     public MapDatabase(final String host, int port, final String db) {
         this.db = db;
         this.host = host+":"+port;
-        this.restURL = "http://" + this.host + "/rest/";
+        this.restURL = "http://" + this.host + "/enginerest/";
         this.dbRestURL = this.restURL + "rest/databases/" + db + "/";
     }
 

@@ -5,7 +5,7 @@ package org.maptalks.javasdk.db;
  */
 public class DBInfo {
     private String name;
-    private String coordinateType;
+    private CoordinateType coordinateType;
     private String version;
 
     public String getName() {
@@ -16,11 +16,11 @@ public class DBInfo {
         this.name = name;
     }
 
-    public String getCoordinateType() {
+    public CoordinateType getCoordinateType() {
         return coordinateType;
     }
 
-    public void setCoordinateType(String coordinateType) {
+    public void setCoordinateType(CoordinateType coordinateType) {
         this.coordinateType = coordinateType;
     }
 
