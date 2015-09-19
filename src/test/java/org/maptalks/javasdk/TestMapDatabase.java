@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.maptalks.javasdk.db.CoordinateType;
 import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.exceptions.RestException;
-import org.maptalks.javasdk.featurelayer.common.TestCommon;
 
 import java.io.IOException;
 /**

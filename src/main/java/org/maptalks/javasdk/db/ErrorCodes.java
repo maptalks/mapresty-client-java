@@ -1,4 +1,4 @@
-package org.maptalks.javasdk;
+package org.maptalks.javasdk.db;
 
 /**
  * Created by fuzhen on 2015/9/17.
