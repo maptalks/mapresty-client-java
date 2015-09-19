@@ -163,22 +163,13 @@ public class FeatureLayer extends Layer {
     }
 
     /**
-     * 通过 id 查询 Feature, 该方法只返回一条数据, 如果 id 对应多个 Feature, 则返回第一个
-     * @param id featureIdColumn列的id值
+     * 查询满足条件的第一条数据
+     *
+     * @param condition 查询条件
      * @return
      * @throws RestException
      */
-    public Feature getById(Object id) throws RestException, IOException {
-        if (id == null) {
-            throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "id or feature is null");
-        }
-        if (this.getFeatureIdColumn() == null) {
-            throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "there is no feature id column defined for layer "+this.getId());
-        }
-        String quote = (id instanceof String)?"'":"";
-        String condition = this.getFeatureIdColumn()+" = " + quote + id + quote;
+    public Feature getFirst(String condition) throws RestException, IOException {
         QueryFilter filter = new QueryFilter();
         filter.setCondition(condition);
         Feature[] features = this.query(filter, 0, 1);
@@ -210,26 +201,6 @@ public class FeatureLayer extends Layer {
     }
 
     /**
-     * 通过 id 更新 Feature
-     *
-     * @param id featureIdColumn列的id值
-     * @param feature
-     */
-    public void updateById(Object id, Feature feature) throws RestException, IOException {
-        if (id == null || feature == null) {
-            throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "id or feature is null");
-        }
-        if (this.getFeatureIdColumn() == null) {
-            throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "there is no feature id column defined for layer "+this.getId());
-        }
-        String quote = (id instanceof String)?"'":"";
-        String condition = this.getFeatureIdColumn()+" = " + quote + id + quote;
-        this.update(condition, feature);
-    }
-
-    /**
      * 删除符合查询条件的Feature
      *
      * @param condition
@@ -245,25 +216,6 @@ public class FeatureLayer extends Layer {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("condition", condition);
         HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
-    }
-
-    /**
-     * 通过 id 删除 Feature
-     *
-     * @param id featureIdColumn列的id值
-     */
-    public void removeById(Object id) throws RestException, IOException {
-        if (id == null) {
-            throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "id or feature is null");
-        }
-        if (this.getFeatureIdColumn() == null) {
-            throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
-                    "there is no feature id column defined for layer "+this.getId());
-        }
-        String quote = (id instanceof String)?"'":"";
-        String condition = this.getFeatureIdColumn()+" = " + quote + id + quote;
-        this.remove(condition);
     }
 
     /**

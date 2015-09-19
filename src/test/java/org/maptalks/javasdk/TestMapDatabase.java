@@ -59,7 +59,6 @@ public class TestMapDatabase {
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setName("测试");
-        testLayer.setFeatureIdColumn("featureIdColumn");
         testLayer.setSource("source");
         db.addLayer(testLayer);
 
@@ -67,7 +66,6 @@ public class TestMapDatabase {
         Assert.assertNotNull(layer);
         Assert.assertEquals(TEST_LAYER_IDENTIFIER, layer.getId());
         Assert.assertEquals("测试", layer.getName());
-        Assert.assertEquals("featureIdColumn", layer.getFeatureIdColumn());
         Assert.assertEquals("source",layer.getSource());
 
         db.updateLayer(layer.getId(),layer);
