@@ -242,7 +242,7 @@ public class FeatureLayer extends Layer {
         if (properties == null) {
             return;
         }
-        final String url = this.restURL + "layers/"+this.getId()+"/data?op=update";
+        final String url = this.restURL + "layers/"+this.getId()+"/data?op=updateProperties";
         final Map<String, String> params = new HashMap<String, String>();
         params.put("condition", condition);
         params.put("data", JsonUtils.toJsonString(properties));

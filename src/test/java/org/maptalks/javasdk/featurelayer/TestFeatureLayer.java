@@ -1,13 +1,16 @@
 package org.maptalks.javasdk.featurelayer;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.Point;
+import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
+import org.maptalks.javasdk.QueryFilter;
 import org.maptalks.javasdk.Settings;
 import org.maptalks.javasdk.db.CoordinateType;
 import org.maptalks.javasdk.db.Layer;
@@ -16,6 +19,7 @@ import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -73,5 +77,72 @@ public class TestFeatureLayer {
         Feature result = featureLayer.getFirst("test1='test1' and test2=2");
         Assert.assertEquals(feature, result);
 
+    }
+
+    @Test
+    public void testAddList() throws IOException, RestException {
+        Point point = TestEnvironment.genPoint();
+        Feature f1 = new Feature(point);
+        f1.setProperties(new HashMap<String, Object>() {
+            {
+                put("test1", "test1");
+                put("test2", 2);
+            }
+        });
+        Feature f2 = (Feature) GeoJSONFactory.create(JSON.toJSONString(f1));
+        f2.getProperties().put("test2",3);
+        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}));
+        Feature[] result = featureLayer.query(null, 0, 10);
+        Assert.assertTrue(result.length == 2);
+        Assert.assertEquals(result[0], f1);
+        Assert.assertEquals(result[1], f2);
+
+    }
+
+    @Test
+    public void testRemoveAll() throws IOException, RestException {
+        Point point = TestEnvironment.genPoint();
+        Feature f1 = new Feature(point);
+        f1.setProperties(new HashMap<String, Object>() {
+            {
+                put("test1", "test1");
+                put("test2", 2);
+            }
+        });
+        Feature f2 = (Feature) GeoJSONFactory.create(JSON.toJSONString(f1));
+        f2.getProperties().put("test2",3);
+        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}));
+        Feature[] result = featureLayer.query(null, 0, 10);
+        Assert.assertTrue(result.length == 2);
+        featureLayer.removeAll();
+        Assert.assertTrue(0 == featureLayer.count(null));
+    }
+
+    @Test
+    public void testUpdateProperties() throws IOException, RestException {
+        Point point = TestEnvironment.genPoint();
+        Feature f1 = new Feature(point);
+        f1.setProperties(new HashMap<String, Object>() {
+            {
+                put("test1", "test1");
+                put("test2", 2);
+            }
+        });
+        Feature f2 = (Feature) GeoJSONFactory.create(JSON.toJSONString(f1));
+        f2.getProperties().put("test2", 3);
+        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}));
+
+        featureLayer.updateProperties("test1 = 'test1'",new HashMap<String, Object>() {
+            {
+                put("test1", "test2");
+                put("test2", 4);
+            }
+        });
+
+        Feature[] result = featureLayer.query(null, 0, 10);
+        for (int i = 0; i < result.length; i++) {
+            Assert.assertEquals(result[i].getProperties().get("test1"), "test2");
+            Assert.assertEquals(result[i].getProperties().get("test2"), 4);
+        }
     }
 }
