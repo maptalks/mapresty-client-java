@@ -14,6 +14,7 @@ public class Layer {
 	private String type = TYPE_DB_TABLE;
 	private String source;
 	private List<LayerField> fields;
+    private String featureIdColumn;
 	private LayerSymbolConfig symbolConfig;
 
 	public LayerSymbolConfig getSymbolConfig() {
@@ -66,4 +67,12 @@ public class Layer {
 	public void setSource(String source) {
 		this.source = source;
 	}
+
+    public String getFeatureIdColumn() {
+        return featureIdColumn;
+    }
+
+    public void setFeatureIdColumn(String featureIdColumn) {
+        this.featureIdColumn = featureIdColumn;
+    }
 }
