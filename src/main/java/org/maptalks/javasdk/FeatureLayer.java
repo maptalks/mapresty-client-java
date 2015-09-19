@@ -50,7 +50,6 @@ public class FeatureLayer extends Layer {
         this.setSource(layer.getSource());
         this.setType(layer.getType());
         this.setSymbolConfig(layer.getSymbolConfig());
-        this.setFeatureIdColumn(layer.getFeatureIdColumn());
         this.mapDatabase = mapDatabase;
         this.restURL = mapDatabase.dbRestURL;
     }
