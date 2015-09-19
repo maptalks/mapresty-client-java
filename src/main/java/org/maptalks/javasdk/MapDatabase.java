@@ -64,7 +64,7 @@ public class MapDatabase {
      * @throws IOException
      * @throws RestException
      */
-    public List<Layer> getLayerInfo() throws IOException, RestException {
+    public List<Layer> getAllLayers() throws IOException, RestException {
         final String url = this.dbRestURL + "layers";
         final List rest = HttpRestClient.doGetList(url, null, Layer.class,
                 useGZIP);
