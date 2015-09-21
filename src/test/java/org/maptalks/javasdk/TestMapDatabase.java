@@ -29,6 +29,13 @@ public class TestMapDatabase {
         Assert.assertEquals(Settings.TEST_DB, dbInfo.getName());
     }
 
+ //   @Test
+    //install map service on database
+    public void testInstall() throws IOException, RestException {
+        MapDatabase db = new MapDatabase("SGH1PDMIS01",8090,"y-sde");
+        db.install(null);
+    }
+
     @Test
     public void testGetLayerInfo() throws IOException, RestException {
         MapDatabase db = this.getMapDatabase();

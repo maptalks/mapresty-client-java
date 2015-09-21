@@ -2,6 +2,7 @@ package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
 import org.maptalks.javasdk.db.DBInfo;
+import org.maptalks.javasdk.db.InstallSettings;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
 import org.maptalks.javasdk.db.Layer;
@@ -39,6 +40,19 @@ public class MapDatabase {
         this.host = host+":"+port;
         this.restURL = "http://" + this.host + "/enginerest/";
         this.dbRestURL = this.restURL + "rest/databases/" + db + "/";
+    }
+
+    /**
+     * 空间库初始化
+     * @param settings 空间库初始化参数, 如果为空, 则采用默认参数初始化空间库
+     * @throws IOException
+     * @throws RestException
+     */
+    public void install(InstallSettings settings) throws IOException, RestException {
+        final String url = this.dbRestURL.substring(0,this.dbRestURL.length()-1)+"?op=install";
+        final Map<String, String> param = new HashMap<String, String>();
+        param.put("settings", JSON.toJSONString(settings));
+        HttpRestClient.doPost(url, param, useGZIP);
     }
 
     /**
