@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 
 public class HttpRestClient {
@@ -125,17 +126,24 @@ public class HttpRestClient {
 		u = new URL(url);
 		con = (HttpURLConnection) u.openConnection();
 		con.setRequestMethod("POST");
-		if (useGzip)
-			con.setRequestProperty("Accept-Encoding", "gzip, deflate");
+		if (useGzip) {
+            con.setRequestProperty("Accept-Encoding", "gzip, deflate");
+            con.setRequestProperty("Content-Encoding", "gzip");
+        }
 		con.setDoOutput(true);
 		con.setDoInput(true);
 		con.setUseCaches(false);
 		con.setRequestProperty("Accept-Charset", "UTF-8");
 		con.setRequestProperty("Content-Type",
 				"application/x-www-form-urlencoded");
-		final OutputStreamWriter osw = new OutputStreamWriter(
-				con.getOutputStream(), "UTF-8");
-		osw.write(sb.toString());
+        OutputStreamWriter osw;
+        if (useGzip) {
+            //gzip压缩上传
+            osw = new OutputStreamWriter(new GZIPOutputStream(con.getOutputStream()),"UTF-8");
+        } else {
+            osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+        }
+        osw.write(sb.toString());
 		osw.flush();
 		osw.close();
 
