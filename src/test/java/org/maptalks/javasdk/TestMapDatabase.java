@@ -29,10 +29,10 @@ public class TestMapDatabase {
         Assert.assertEquals(Settings.TEST_DB, dbInfo.getName());
     }
 
- //   @Test
+    //@Test
     //install map service on database
     public void testInstall() throws IOException, RestException {
-        MapDatabase db = new MapDatabase("SGH1PDMIS01",8090,"y-sde");
+        MapDatabase db = new MapDatabase("localhost",8090,"default");
         db.install(null);
     }
 

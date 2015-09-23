@@ -6,5 +6,5 @@ package org.maptalks.javasdk;
 public class Settings {
     public static String TEST_HOST = "localhost";
     public static int TEST_PORT = 8090;
-    public static String TEST_DB = "mysql";
+    public static String TEST_DB = "default";
 }
