@@ -13,6 +13,23 @@ import org.maptalks.javasdk.db.Layer;
 public class TestEnvironment {
     public static String LAYER_TYPE = Layer.TYPE_DB_TABLE;
 
+
+    public static Geometry[] genAllGeometries() {
+        Geometry[] geometries = new Geometry[]{
+                genPoint(),
+                genPolyline(),
+                genPolygon(),
+                genMultipoint(),
+                genMultiPolyline(),
+                genMultiPolygon(),
+                genCircle(),
+                genEllipse(),
+                genRectangle(),
+                genSector()
+        };
+        return geometries;
+    }
+
     //-----生成各种图形的方法-----------------
 
     /**

@@ -2,6 +2,7 @@ package org.maptalks.javasdk.featurelayer;
 
 import org.maptalks.javasdk.MapDatabase;
 import org.maptalks.javasdk.Settings;
+import org.maptalks.javasdk.featurelayer.common.Equations;
 import org.maptalks.javasdk.featurelayer.common.TestCRUD;
 
 /**
@@ -15,12 +16,13 @@ public class TestSQL extends TestCRUD{
     }
 
     @Override
-    public String eq(String field, String value) {
-        return field+" = '"+value+"'";
+    public String eq(String field, Object value) {
+        return Equations.SQL.eq(field, value);
+
     }
 
     @Override
     public String startsWith(String field, String prefix) {
-        return field+" like '"+prefix+"%'";
+        return Equations.SQL.startsWith(field, prefix);
     }
 }

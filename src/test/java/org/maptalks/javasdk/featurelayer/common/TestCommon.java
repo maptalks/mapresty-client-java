@@ -13,7 +13,7 @@ public abstract class TestCommon {
      * @param value
      * @return
      */
-    public abstract String eq(String field, String value);
+    public abstract String eq(String field, Object value);
 
     /**
      * 生成是否以prefix开头的查询语句

@@ -10,9 +10,9 @@ import org.maptalks.gis.core.geojson.Point;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
-import org.maptalks.javasdk.QueryFilter;
 import org.maptalks.javasdk.Settings;
 import org.maptalks.javasdk.db.CoordinateType;
+import org.maptalks.javasdk.ErrorCodes;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
 import org.maptalks.javasdk.exceptions.RestException;
@@ -74,7 +74,7 @@ public class TestFeatureLayer {
             }
         });
         featureLayer.add(feature);
-        Feature result = featureLayer.getFirst("test1='test1' and test2=2");
+        Feature result = featureLayer.getFirst(null);
         Assert.assertEquals(feature, result);
 
     }
@@ -119,6 +119,23 @@ public class TestFeatureLayer {
     }
 
     @Test
+    public void testGeometryCannotBeNull() throws IOException, RestException {
+        Feature f1 = new Feature(null);
+        f1.setProperties(new HashMap<String, Object>() {
+            {
+                put("test1", "test1");
+                put("test2", 2);
+            }
+        });
+        try {
+            featureLayer.add(Arrays.asList(new Feature[]{f1}));
+            Assert.assertEquals(1,2);//fail
+        } catch (RestException e) {
+            Assert.assertEquals(e.getErrCode(), ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT);
+        }
+    }
+
+    @Test
     public void testUpdateProperties() throws IOException, RestException {
         Point point = TestEnvironment.genPoint();
         Feature f1 = new Feature(point);
@@ -145,4 +162,6 @@ public class TestFeatureLayer {
             Assert.assertEquals(result[i].getProperties().get("test2"), 4);
         }
     }
+
+
 }

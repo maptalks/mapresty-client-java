@@ -11,14 +11,18 @@ import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
 import org.maptalks.javasdk.QueryFilter;
+import org.maptalks.javasdk.Settings;
 import org.maptalks.javasdk.db.CoordinateType;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
+import org.maptalks.javasdk.exceptions.InvalidLayerException;
+import org.maptalks.javasdk.exceptions.RestException;
 
 /**
  * Created by fuzhen on 2015/9/18.
@@ -188,5 +192,6 @@ public abstract class TestCRUD extends TestCommon {
     private boolean isSpatial(Layer layer) {
         return layer.getType().equalsIgnoreCase(Layer.TYPE_DB_SPATIAL_TABLE) || layer.getType().equalsIgnoreCase(Layer.TYPE_DB_SPATIAL_VIEW);
     }
+
 
 }
