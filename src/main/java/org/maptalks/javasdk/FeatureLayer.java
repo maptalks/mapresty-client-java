@@ -6,7 +6,6 @@ import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.db.CoordinateType;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
-import org.maptalks.javasdk.db.ErrorCodes;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
@@ -14,6 +13,7 @@ import org.maptalks.javasdk.utils.ArrayUtils;
 import org.maptalks.javasdk.utils.JsonUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +152,17 @@ public class FeatureLayer extends Layer {
      * @throws IOException
      * @throws RestException
      */
+    public void add(Feature[] features) throws IOException, RestException {
+        this.add(Arrays.asList(features));
+    }
+
+    /**
+     * 批量添加 Feature
+     *
+     * @param features
+     * @throws IOException
+     * @throws RestException
+     */
     public void add(final List<Feature> features) throws IOException,
             RestException {
         if (features == null)
@@ -169,8 +180,11 @@ public class FeatureLayer extends Layer {
      * @throws RestException
      */
     public Feature getFirst(String condition) throws RestException, IOException {
-        QueryFilter filter = new QueryFilter();
-        filter.setCondition(condition);
+        QueryFilter filter = null;
+        if (condition != null && condition.length() > 0) {
+            filter = new QueryFilter();
+            filter.setCondition(condition);
+        }
         Feature[] features = this.query(filter, 0, 1);
         if (features!=null && features.length>0) {
             return features[0];
@@ -259,7 +273,7 @@ public class FeatureLayer extends Layer {
 
 
     /**
-     * 查询符合条件的数据
+     * 查询符合条件的数据, 没有结果时返回空数组
      * @param queryFilter
      * @param page 第几页
      * @param count 每页结果数
@@ -274,7 +288,7 @@ public class FeatureLayer extends Layer {
         }
         final String json = queryJson(queryFilter, page, count);
         if (json == null || json.length() == 0) {
-            return null;
+            return new Feature[0];
         }
         return GeoJSONFactory.createFeatureArray(json);
     }
@@ -345,9 +359,8 @@ public class FeatureLayer extends Layer {
         if (retCoordinateType != null) {
             params.put("coordinateType", retCoordinateType.toString());
         }
-        if (queryFilter.isReturnGeometry()) {
-            params.put("returnGeometry", queryFilter.isReturnGeometry() + "");
-        }
+        params.put("returnGeometry", queryFilter.isReturnGeometry() + "");
+
         String[] fields = queryFilter.getResultFields();
         if (fields != null) {
             params.put("fields", ArrayUtils.join(fields));
