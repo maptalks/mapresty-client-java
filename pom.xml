@@ -3,16 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.maptalks</groupId>
-  <artifactId>maptalks.java</artifactId>
+  <artifactId>maptalks-java</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>maptalks.java</name>
+  <name>maptalks-java</name>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mvn-repo.path>${project.build.directory}/../../mvn-repo</mvn-repo.path>
+    <mvn-repo.path>${user.home}/repos/mvn-repo</mvn-repo.path>
 
     <project.release.version>2.0.0-SNAPSHOT</project.release.version>
   </properties>
