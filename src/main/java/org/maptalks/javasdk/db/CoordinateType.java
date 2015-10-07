@@ -1,5 +1,10 @@
 package org.maptalks.javasdk.db;
 
+import org.maptalks.gis.core.geojson.CRS;
+import org.maptalks.gis.core.geojson.GeoJSON;
+
+import java.util.HashMap;
+
 /**
  * Created by fuzhen on 2015/8/11.
  */
@@ -24,4 +29,31 @@ public enum CoordinateType {
             return null;
         }
     }
+
+    /**
+     * 从GeoJson对象中获取CoordinateType
+     * @param geoJson
+     * @return
+     */
+    public static CoordinateType getFromGeoJson(GeoJSON geoJson) {
+        if (geoJson.getCrs() == null || geoJson.getCrs().getProperties() == null) {
+            return null;
+        }
+        Object s = geoJson.getCrs().getProperties().get("name");
+        if (s != null) {
+            return CoordinateType.getInstance(s.toString());
+        }
+        return null;
+    }
+
+    /**
+     * 设置GeoJson对象的CoordinateType
+     * @param geoJson
+     */
+    public static void setGeoJsonCoordinateType(GeoJSON geoJson,CoordinateType coordinateType) {
+        CRS crs = CRS.createCnCoordinateType(coordinateType.toString());
+        geoJson.setCrs(crs);
+    }
+
+
 }
