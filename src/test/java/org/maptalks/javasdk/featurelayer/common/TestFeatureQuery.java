@@ -6,10 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.Geometry;
-import org.maptalks.javasdk.FeatureLayer;
-import org.maptalks.javasdk.MapDatabase;
-import org.maptalks.javasdk.QueryFilter;
-import org.maptalks.javasdk.Settings;
+import org.maptalks.javasdk.*;
 import org.maptalks.javasdk.db.CoordinateType;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
@@ -164,5 +161,27 @@ public abstract class TestFeatureQuery extends TestCommon {
         }
     }
 
+    @Test
+    public void testCoordinateType() throws IOException, RestException {
+        QueryFilter filter = new QueryFilter();
+        filter.setCoordinateType(CoordinateType.bd09ll);
+        Feature[] result = featureLayer.query(filter, 0, Integer.MAX_VALUE);
+        Assert.assertEquals(result.length, features.length);
+        for (int i = 0; i < result.length; i++) {
+            Assert.assertNotEquals(features[i].getGeometry(), result[i].getGeometry());
+        }
+    }
+
+    @Test
+    public void testSpatialFilter() throws IOException, RestException {
+        SpatialFilter spatialFilter = new SpatialFilter();
+        spatialFilter.setRelation(SpatialFilter.RELATION_WITHIN);
+        spatialFilter.setFilterGeometry(TestEnvironment.genCircle());
+        QueryFilter filter = new QueryFilter();
+        filter.setSpatialFilter(spatialFilter);
+        Feature[] result = featureLayer.query(filter, 0, Integer.MAX_VALUE);
+        Assert.assertTrue(result.length < features.length);
+
+    }
 
 }
