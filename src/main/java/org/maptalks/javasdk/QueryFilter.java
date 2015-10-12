@@ -7,6 +7,13 @@ import org.maptalks.gis.core.geojson.Geometry;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.db.CoordinateType;
 
+/**
+ * 查询条件类
+ *
+ * 对于JSON反序列化,
+ * JSON字符串无法直接用fastjson, jackson等JSON库反序列化为QueryFilter对象
+ * 请调用QueryFilter.create方法来进行JSON反序列化
+ */
 public class QueryFilter {
     /**
      * 全部自定义属性,即查询结果返回所有的自定义属性 例子:  queryFilter.setResultFields(QueryFilter.ALL_FIELDS);
@@ -78,6 +85,11 @@ public class QueryFilter {
         this.returnGeometry = returnGeometry;
     }
 
+    /**
+     * 将 JSON 字符串反序列化为QueryFilter对象
+     * @param json
+     * @return
+     */
     public static QueryFilter create(String json) {
         QueryFilter filter = JSON.parseObject(json, QueryFilter.class, new ExtraProcessor() {
 

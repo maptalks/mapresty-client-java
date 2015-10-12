@@ -2,8 +2,12 @@ package org.maptalks.javasdk;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.maptalks.gis.core.geojson.Feature;
+import org.maptalks.gis.core.geojson.Point;
 import org.maptalks.javasdk.db.*;
+import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
+import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +38,36 @@ public class TestMapDatabase {
     public void testInstall() throws IOException, RestException {
         MapDatabase db = new MapDatabase("localhost",8090,"default");
         db.install(null);
+    }
+
+    @Test
+    public void testQueryLayers() throws IOException, RestException, InvalidLayerException {
+        MapDatabase db = this.getMapDatabase();
+        String[] layerIds = new String[]{TEST_LAYER_IDENTIFIER + "_1", TEST_LAYER_IDENTIFIER + "_2"};
+        for (int i = 0; i < layerIds.length; i++) {
+            Layer layer = new Layer();
+            layer.setId(layerIds[i]);
+            db.addLayer(layer);
+        }
+        try {
+
+            Point point = TestEnvironment.genPoint();
+            Feature feature = new Feature(point);
+            for (int i = 0; i < layerIds.length; i++) {
+                new FeatureLayer(layerIds[i], db).add(feature);
+            }
+
+            Feature[] features = db.query(null, 0, 10, layerIds);
+            Assert.assertTrue(features.length == 2);
+            for (Feature feature1 : features) {
+                Assert.assertEquals(feature1, feature);
+            }
+        } finally {
+            for (int i = 0; i < layerIds.length; i++) {
+                db.removeLayer(layerIds[i]);
+            }
+        }
+
     }
 
     @Test

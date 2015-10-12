@@ -283,14 +283,7 @@ public class FeatureLayer extends Layer {
      */
     public Feature[] query(QueryFilter queryFilter, int page, int count)
             throws IOException, RestException {
-        if (queryFilter == null) {
-            queryFilter = new QueryFilter();
-        }
-        final String json = queryJson(queryFilter, page, count);
-        if (json == null || json.length() == 0) {
-            return new Feature[0];
-        }
-        return GeoJSONFactory.createFeatureArray(json);
+        return this.mapDatabase.query(queryFilter, page, count, new String[]{this.getId()});
     }
 
 
@@ -305,20 +298,7 @@ public class FeatureLayer extends Layer {
      */
     public String queryJson(QueryFilter queryFilter, int page, int count)
             throws IOException, RestException {
-        if (page < 0 || count <= 0) {
-            return null;
-        }
-        if (queryFilter == null) {
-            queryFilter = new QueryFilter();
-        }
-        final String url = this.restURL + "layers/"+this.getId()+"/data?op=query";
-
-        final Map<String, String> params = FeatureLayer
-                .prepareFilterParameters(queryFilter);
-        params.put("page", page + "");
-        params.put("count", count + "");
-
-        return HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
+        return this.mapDatabase.queryJson(queryFilter, page, count, new String[]{this.getId()});
     }
 
     /**

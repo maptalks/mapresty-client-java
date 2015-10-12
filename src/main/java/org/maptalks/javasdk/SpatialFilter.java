@@ -9,6 +9,11 @@ import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 
 /**
  * 空间查询条件类
+ *
+ * 对于JSON反序列化,
+ * JSON字符串无法直接用fastjson, jackson等JSON库反序列化为SpatialFilter对象
+ * 请调用SpatialFilter.create方法来进行JSON反序列化
+ *
  * @author fuzhen
  *
  */
@@ -64,7 +69,7 @@ public class SpatialFilter {
     }
 
     /**
-     * 解析json字符串生成SpatialFilter
+     * 解析json字符串反序列化为SpatialFilter对象
      * @param json
      * @return
      */
