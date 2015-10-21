@@ -3,6 +3,7 @@ package org.maptalks.javasdk;
 import org.junit.Assert;
 import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
+import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Point;
 import org.maptalks.javasdk.db.*;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
@@ -57,11 +58,11 @@ public class TestMapDatabase {
                 new FeatureLayer(layerIds[i], db).add(feature);
             }
 
-            Feature[] features = db.query(null, 0, 10, layerIds);
-            Assert.assertTrue(features.length == 2);
-            for (Feature feature1 : features) {
-                Assert.assertEquals(feature1, feature);
-            }
+            FeatureCollection[] collections = db.query(null, 0, 10, layerIds);
+            Assert.assertTrue(collections.length == 2);
+                Assert.assertEquals(collections[0].getFeatures()[0], feature);
+            Assert.assertEquals(collections[1].getFeatures()[0], feature);
+
         } finally {
             for (int i = 0; i < layerIds.length; i++) {
                 db.removeLayer(layerIds[i]);

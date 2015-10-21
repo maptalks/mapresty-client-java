@@ -1,7 +1,9 @@
 package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import org.maptalks.gis.core.geojson.Feature;
+import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.db.InstallSettings;
@@ -200,15 +202,15 @@ public class MapDatabase {
      * @throws IOException
      * @throws RestException
      */
-    public Feature[] query(QueryFilter queryFilter, int page, int count, String[] layerIds) throws IOException, RestException {
+    public FeatureCollection[] query(QueryFilter queryFilter, int page, int count, String[] layerIds) throws IOException, RestException {
         if (queryFilter == null) {
             queryFilter = new QueryFilter();
         }
         final String json = queryJson(queryFilter, page, count, layerIds);
         if (json == null || json.length() == 0) {
-            return new Feature[0];
+            return new FeatureCollection[0];
         }
-        return GeoJSONFactory.createFeatureArray(json);
+        return GeoJSONFactory.createFeatureCollectionArray(json);
     }
 
     /**

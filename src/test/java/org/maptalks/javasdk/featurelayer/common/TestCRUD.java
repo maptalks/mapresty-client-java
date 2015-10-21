@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
+import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Geometry;
 import org.maptalks.gis.core.geojson.ext.GeometryExt;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
@@ -159,9 +160,9 @@ public abstract class TestCRUD extends TestCommon {
 
         String result = featureLayer.queryJson(queryFilter, 0, 10);
         Assert.assertNotNull(result);
-        Feature[] geos = GeoJSONFactory.createFeatureArray(result);
-        Assert.assertEquals(1, geos.length);
-        Feature queryGeo = geos[0];
+        FeatureCollection[] collections = GeoJSONFactory.createFeatureCollectionArray(result);
+        Assert.assertEquals(1, collections[0].getFeatures().length);
+        Feature queryGeo = collections[0].getFeatures()[0];
 
         /*
          * TODO Spatial类型的图层不支持circle, ellipse等非WKB图形
@@ -179,14 +180,14 @@ public abstract class TestCRUD extends TestCommon {
 
         queryFilter.setCondition(eq("test1", "hehe"));
         result = featureLayer.queryJson(queryFilter, 0, 10);
-        Feature[] features = GeoJSONFactory.createFeatureArray(result);
-        queryGeo = features[0];
+        collections = GeoJSONFactory.createFeatureCollectionArray(result);
+        queryGeo = collections[0].getFeatures()[0];
         Map retAttr = queryGeo.getProperties();
         Assert.assertEquals("hehe", retAttr.get("test1"));
         Assert.assertEquals(0, retAttr.get("test2"));
         featureLayer.remove(eq("test1", "hehe"));
         result = featureLayer.queryJson(queryFilter, 0, 10);
-        Assert.assertEquals(result, "[]");
+        Assert.assertEquals(result, "[{\"features\":[],\"crs\":{\"type\":\"cnCoordinateType\",\"properties\":{\"name\":\"gcj02\"}},\"type\":\"FeatureCollection\",\"layer\":\""+TEST_LAYER_IDENTIFIER+"\"}]");
     }
 
     private boolean isSpatial(Layer layer) {

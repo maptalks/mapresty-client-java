@@ -1,7 +1,9 @@
 package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
+import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.db.CoordinateType;
 import org.maptalks.javasdk.db.Layer;
@@ -283,7 +285,18 @@ public class FeatureLayer extends Layer {
      */
     public Feature[] query(QueryFilter queryFilter, int page, int count)
             throws IOException, RestException {
-        return this.mapDatabase.query(queryFilter, page, count, new String[]{this.getId()});
+        FeatureCollection[] matrix = this.mapDatabase.query(queryFilter, page, count, new String[]{this.getId()});
+        if (matrix.length == 0) {
+            return new Feature[0];
+        }
+        Feature[] features = matrix[0].getFeatures();
+        CRS crs = matrix[0].getCrs();
+        if (crs != null) {
+            for (Feature feature : features) {
+                feature.setCrs(crs);
+            }
+        }
+        return features;
     }
 
 

@@ -136,26 +136,34 @@ public class HttpRestClient {
 		con.setRequestProperty("Accept-Charset", "UTF-8");
 		con.setRequestProperty("Content-Type",
 				"application/x-www-form-urlencoded");
-        OutputStreamWriter osw;
-        if (useGzip) {
-            //gzip压缩上传
-            osw = new OutputStreamWriter(new GZIPOutputStream(con.getOutputStream()),"UTF-8");
-        } else {
-            osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+        OutputStreamWriter osw = null;
+        try {
+            if (useGzip) {
+                //gzip压缩上传
+                osw = new OutputStreamWriter(new GZIPOutputStream(con.getOutputStream()), "UTF-8");
+            } else {
+                osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+            }
+            osw.write(sb.toString());
+            osw.flush();
+        } finally {
+            if (osw != null) {
+                osw.close();
+            }
         }
-        osw.write(sb.toString());
-		osw.flush();
-		osw.close();
 
+        StringBuilder resultBuilder = new StringBuilder();
 		// 读取返回内容
-		final BufferedReader br = getConReader(con);
+        try {
+            final BufferedReader br = getConReader(con);
+            int temp;
+            while ((temp = br.read()) != -1) {
+                resultBuilder.append((char) temp);
+            }
+        } finally {
+            con.disconnect();
+        }
 
-		StringBuilder resultBuilder = new StringBuilder();
-		int temp;
-		while ((temp = br.read()) != -1) {
-			resultBuilder.append((char)temp);
-		}
-		con.disconnect();
 		RestResult result = JSON.parseObject(resultBuilder.toString(), RestResult.class);
 
 		if (!result.isSuccess()) {
