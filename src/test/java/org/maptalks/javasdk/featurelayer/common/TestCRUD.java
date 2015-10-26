@@ -7,23 +7,19 @@ import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Geometry;
+import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.gis.core.geojson.ext.GeometryExt;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
 import org.maptalks.javasdk.QueryFilter;
-import org.maptalks.javasdk.Settings;
-import org.maptalks.javasdk.db.CoordinateType;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
-import org.maptalks.javasdk.exceptions.InvalidLayerException;
-import org.maptalks.javasdk.exceptions.RestException;
 
 /**
  * Created by fuzhen on 2015/9/18.

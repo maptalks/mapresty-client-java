@@ -1,11 +1,10 @@
 package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.maptalks.gis.core.geojson.Polygon;
-import org.maptalks.javasdk.db.CoordinateType;
+import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.javasdk.utils.JsonUtils;
 
 /**

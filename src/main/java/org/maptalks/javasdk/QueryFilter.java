@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.deserializer.ExtraProcessor;
 import org.maptalks.gis.core.geojson.Geometry;
+import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
-import org.maptalks.javasdk.db.CoordinateType;
 
 /**
  * 查询条件类

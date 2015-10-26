@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Point;
+import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.javasdk.db.*;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
