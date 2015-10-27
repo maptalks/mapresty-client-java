@@ -31,9 +31,19 @@ public class SpatialFilter {
     public final static int RELATION_TOUCH = 4;
     //被包含关系
     public final static int RELATION_WITHIN = 5;
-    //中心点包含关系
-    public final static int RELATION_CONTAINCENTER = 7;
-
+    //以下是非标准的图形关系
+    /**
+     * 相交但不包含关系即within 或 overlap
+     */
+    public final static int RELATION_INTERECTNOTCONTAIN = 100;
+    /**
+     * 包含中心点
+     */
+    public final static int RELATION_CONTAINCENTER = 101;
+    /**
+     * 中心点被包含
+     */
+    public final static int RELATION_CENTERWITHIN = 102;
     /**
      * 空间关系比较的geometry对象
      */
