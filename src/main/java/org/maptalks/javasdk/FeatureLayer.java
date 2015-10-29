@@ -346,9 +346,9 @@ public class FeatureLayer extends Layer {
             params.put("spatialFilter", JsonUtils.toJsonString(spatialFilter));
         }
 
-        CRS resultCRS = queryFilter.getCrs();
+        CRS resultCRS = queryFilter.getResultCrs();
         if (resultCRS != null) {
-            params.put("crs", resultCRS.toString());
+            params.put("resultCrs", resultCRS.toString());
         }
         params.put("returnGeometry", queryFilter.isReturnGeometry() + "");
 

@@ -31,7 +31,7 @@ public class QueryFilter {
     private SpatialFilter spatialFilter;
 
     /**
-     * 坐标系类型
+     * 结果坐标系
      */
     private CRS crs;
 
@@ -66,11 +66,11 @@ public class QueryFilter {
         this.resultFields = resultFields;
     }
 
-    public CRS getCrs() {
+    public CRS getResultCrs() {
         return crs;
     }
 
-    public void setCrs(CRS crs) {
+    public void setResultCrs(CRS crs) {
         this.crs = crs;
     }
 

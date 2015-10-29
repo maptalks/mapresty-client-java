@@ -162,7 +162,7 @@ public abstract class TestFeatureQuery extends TestCommon {
     @Test
     public void testCoordinateType() throws IOException, RestException {
         QueryFilter filter = new QueryFilter();
-        filter.setCrs(CoordinateType.bd09ll.toCRS());
+        filter.setResultCrs(CoordinateType.bd09ll.toCRS());
         Feature[] result = featureLayer.query(filter, 0, Integer.MAX_VALUE);
         Assert.assertEquals(result.length, features.length);
         for (int i = 0; i < result.length; i++) {
