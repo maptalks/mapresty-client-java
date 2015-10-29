@@ -38,9 +38,6 @@ public class TestFilterJson {
         queryFilter.setSpatialFilter(filter);
 
         String qfJson = JsonUtils.toJsonString(queryFilter);
-//        JSONObject jsonObj = JSON.parseObject(qfJson);
-//        jsonObj.put("coordinateType","wrongType");
-//        qfJson = JsonUtils.toJsonString(jsonObj);
 
         QueryFilter parsed = QueryFilter.create(qfJson);
         Assert.assertEquals(parsed.getCrs(),CRS.DEFAULT);
