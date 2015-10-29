@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.Point;
 import org.maptalks.gis.core.geojson.common.CoordinateType;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 public class TestFeatureLayer {
     private FeatureLayer featureLayer;
     private MapDatabase mapService;
-    private CoordinateType coordinateType;
+    private CRS crs;
 
     protected final String TEST_LAYER_IDENTIFIER = "JUNIT"
             + System.currentTimeMillis();
@@ -41,7 +42,7 @@ public class TestFeatureLayer {
     public void prepare() throws Exception {
         mapService = this.getMapDatabase();
 
-        coordinateType = CoordinateType.DEFAULT;
+        crs = CoordinateType.DEFAULT.toCRS();
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setType(TestEnvironment.LAYER_TYPE);

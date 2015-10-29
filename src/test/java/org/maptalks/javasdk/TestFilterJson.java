@@ -3,6 +3,7 @@ package org.maptalks.javasdk;
 import com.alibaba.fastjson.JSON;
 import org.junit.Assert;
 import org.junit.Test;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Polygon;
 import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.javasdk.utils.JsonUtils;
@@ -33,7 +34,7 @@ public class TestFilterJson {
         QueryFilter queryFilter = new QueryFilter();
         queryFilter.setCondition("foo = 1");
         queryFilter.setResultFields(new String[]{"foo1", "foo2"});
-        queryFilter.setCoordinateType(CoordinateType.gcj02);
+        queryFilter.setCrs(CRS.DEFAULT);
         queryFilter.setSpatialFilter(filter);
 
         String qfJson = JsonUtils.toJsonString(queryFilter);
@@ -42,7 +43,7 @@ public class TestFilterJson {
 //        qfJson = JsonUtils.toJsonString(jsonObj);
 
         QueryFilter parsed = QueryFilter.create(qfJson);
-        Assert.assertEquals(parsed.getCoordinateType(),CoordinateType.gcj02);
+        Assert.assertEquals(parsed.getCrs(),CRS.DEFAULT);
         String parsedJson = JSON.toJSONString(parsed);
 
         Assert.assertEquals(qfJson, parsedJson);

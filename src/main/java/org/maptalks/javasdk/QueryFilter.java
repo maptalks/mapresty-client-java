@@ -3,6 +3,7 @@ package org.maptalks.javasdk;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.deserializer.ExtraProcessor;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Geometry;
 import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
@@ -33,7 +34,7 @@ public class QueryFilter {
     /**
      * 坐标系类型
      */
-    private CoordinateType coordinateType;
+    private CRS crs;
 
     /**
      * 要返回的自定义属性
@@ -66,12 +67,12 @@ public class QueryFilter {
         this.resultFields = resultFields;
     }
 
-    public CoordinateType getCoordinateType() {
-        return coordinateType;
+    public CRS getCrs() {
+        return crs;
     }
 
-    public void setCoordinateType(CoordinateType coordinateType) {
-        this.coordinateType = coordinateType;
+    public void setCrs(CRS crs) {
+        this.crs = crs;
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.maptalks.javasdk.db;
 
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.common.CoordinateType;
 
 /**
@@ -7,7 +8,7 @@ import org.maptalks.gis.core.geojson.common.CoordinateType;
  */
 public class DBInfo {
     private String name;
-    private CoordinateType coordinateType;
+    private CRS crs;
     private String version;
 
     public String getName() {
@@ -18,12 +19,12 @@ public class DBInfo {
         this.name = name;
     }
 
-    public CoordinateType getCoordinateType() {
-        return coordinateType;
+    public CRS getCrs() {
+        return crs;
     }
 
-    public void setCoordinateType(CoordinateType coordinateType) {
-        this.coordinateType = coordinateType;
+    public void setCrs(CRS crs) {
+        this.crs = crs;
     }
 
     public String getVersion() {

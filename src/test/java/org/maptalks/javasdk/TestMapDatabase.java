@@ -2,6 +2,7 @@ package org.maptalks.javasdk;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Point;
@@ -31,7 +32,7 @@ public class TestMapDatabase {
         MapDatabase db = this.getMapDatabase();
         DBInfo dbInfo = db.getDatabaseInfo();
         Assert.assertNotNull(dbInfo);
-        Assert.assertTrue(dbInfo.getCoordinateType().equals(CoordinateType.gcj02));
+        Assert.assertTrue(dbInfo.getCrs().equals(CRS.GCJ02));
         Assert.assertEquals(Settings.TEST_DB, dbInfo.getName());
     }
 

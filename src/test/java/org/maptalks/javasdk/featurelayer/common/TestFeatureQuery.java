@@ -22,7 +22,6 @@ import java.util.HashMap;
 public abstract class TestFeatureQuery extends TestCommon {
     private FeatureLayer featureLayer;
     private MapDatabase mapService;
-    private CoordinateType coordinateType;
     private Feature[] features;
 
     protected final String TEST_LAYER_IDENTIFIER = "JUNIT"
@@ -37,7 +36,6 @@ public abstract class TestFeatureQuery extends TestCommon {
     public void prepare() throws IOException, RestException, InvalidLayerException {
         mapService = this.getMapDatabase();
 
-        coordinateType = CoordinateType.DEFAULT;
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setType(TestEnvironment.LAYER_TYPE);
@@ -164,7 +162,7 @@ public abstract class TestFeatureQuery extends TestCommon {
     @Test
     public void testCoordinateType() throws IOException, RestException {
         QueryFilter filter = new QueryFilter();
-        filter.setCoordinateType(CoordinateType.bd09ll);
+        filter.setCrs(CoordinateType.bd09ll.toCRS());
         Feature[] result = featureLayer.query(filter, 0, Integer.MAX_VALUE);
         Assert.assertEquals(result.length, features.length);
         for (int i = 0; i < result.length; i++) {

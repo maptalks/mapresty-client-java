@@ -27,7 +27,6 @@ import org.maptalks.javasdk.db.LayerField;
 public abstract class TestCRUD extends TestCommon {
     private FeatureLayer featureLayer;
     private MapDatabase mapService;
-    private CoordinateType coordinateType;
 
     protected final String TEST_LAYER_IDENTIFIER = "JUNIT"
             + System.currentTimeMillis();
@@ -36,7 +35,6 @@ public abstract class TestCRUD extends TestCommon {
     public void prepare() throws Exception {
         mapService = this.getMapDatabase();
 
-        coordinateType = CoordinateType.DEFAULT;
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setType(TestEnvironment.LAYER_TYPE);
