@@ -9,7 +9,7 @@ public interface ErrorCodes {
         int ERRCODE_MAPDB_NOTEXISTS = 10002;
         int ERRCODE_LAYER_NOTEXISTS = 10003;
         int ERRCODE_INVALID_COORDINATE = 10004;
-        int ERRCODE_INVALID_CoordinateType = 10005;
+        int ERRCODE_INVALID_CRS = 10005;
         int ERRCODE_SQL_EXCEPTION = 10006;
         int ERRCODE_MONGO_EXCEPTION = 10007;
         int ERRCODE_IO_EXCEPTION = 10008;

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
-import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;

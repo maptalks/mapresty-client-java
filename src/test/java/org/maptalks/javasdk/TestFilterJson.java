@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Polygon;
-import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.javasdk.utils.JsonUtils;
 
 /**

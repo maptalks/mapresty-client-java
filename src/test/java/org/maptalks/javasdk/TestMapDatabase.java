@@ -6,8 +6,8 @@ import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Point;
-import org.maptalks.gis.core.geojson.common.CoordinateType;
-import org.maptalks.javasdk.db.*;
+import org.maptalks.javasdk.db.DBInfo;
+import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
@@ -36,7 +36,7 @@ public class TestMapDatabase {
         Assert.assertEquals(Settings.TEST_DB, dbInfo.getName());
     }
 
-    //@Test
+//    @Test
     //install map service on database
     public void testInstall() throws IOException, RestException {
         MapDatabase db = new MapDatabase("localhost",8090,"default");
