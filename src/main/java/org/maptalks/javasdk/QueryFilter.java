@@ -90,7 +90,7 @@ public class QueryFilter {
      * @param json
      * @return
      */
-    public static QueryFilter create(String json) {
+    /*public static QueryFilter create(String json) {
         QueryFilter filter = JSON.parseObject(json, QueryFilter.class, new ExtraProcessor() {
 
             public void processExtra(Object o, String s, Object value) {
@@ -106,5 +106,5 @@ public class QueryFilter {
             }
         });
         return filter;
-    }
+    }*/
 }

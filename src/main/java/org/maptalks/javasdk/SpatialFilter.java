@@ -66,8 +66,19 @@ public class SpatialFilter {
         return geometry;
     }
 
-    public void setFilterGeometry(final Geometry geometry) {
-        this.geometry = geometry;
+    public void setGeometry(final Object geometry) {
+        if (geometry instanceof JSONObject) {
+            String type = ((JSONObject) geometry).getString("type");
+            if (type != null) {
+                Class clazz = GeoJSONFactory.getGeoJsonType(type);
+                Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) geometry), clazz);
+                this.geometry = geo;
+            }
+        } else if (geometry instanceof Geometry) {
+            this.geometry = ((Geometry) geometry);
+        } else if (geometry instanceof String) {
+            this.geometry = ((Geometry) GeoJSONFactory.create(((String) geometry)));
+        }
     }
 
     public int getRelation() {
@@ -78,26 +89,26 @@ public class SpatialFilter {
         this.relation = relation;
     }
 
-    /**
-     * 解析json字符串反序列化为SpatialFilter对象
-     * @param json
-     * @return
-     */
-    public static SpatialFilter create(String json) {
-        SpatialFilter filter = JSON.parseObject(json, SpatialFilter.class, new ExtraProcessor() {
-
-            public void processExtra(Object o, String s, Object value) {
-                if ("geometry".equals(s)) {
-                    String type = ((JSONObject) value).getString("type");
-                    if (type != null) {
-                        Class clazz = GeoJSONFactory.getGeoJsonType(type);
-                        Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) value), clazz);
-                        ((SpatialFilter) o).setFilterGeometry(geo);
-                    }
-
-                }
-            }
-        });
-        return filter;
-    }
+//    /**
+//     * 解析json字符串反序列化为SpatialFilter对象
+//     * @param json
+//     * @return
+//     */
+//    public static SpatialFilter create(String json) {
+//        SpatialFilter filter = JSON.parseObject(json, SpatialFilter.class, new ExtraProcessor() {
+//
+//            public void processExtra(Object o, String s, Object value) {
+//                if ("geometry".equals(s)) {
+//                    String type = ((JSONObject) value).getString("type");
+//                    if (type != null) {
+//                        Class clazz = GeoJSONFactory.getGeoJsonType(type);
+//                        Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) value), clazz);
+//                        ((SpatialFilter) o).setFilterGeometry(geo);
+//                    }
+//
+//                }
+//            }
+//        });
+//        return filter;
+//    }
 }

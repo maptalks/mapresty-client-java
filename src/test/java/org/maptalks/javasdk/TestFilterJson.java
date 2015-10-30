@@ -13,11 +13,11 @@ import org.maptalks.javasdk.utils.JsonUtils;
 public class TestFilterJson {
     @Test
     public void testSpatialFilterJson() {
-        String sfStr = "{\"geometry\":{\"coordinates\":[[[67.49999999011854,11.178401880321333],"
+        String sfStr = "{\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[67.49999999011854,11.178401880321333],"
                 + "[78.74999998966939,11.178401880321333],[78.74999998966939,7.186526913860446E-9],"
-                + "[67.49999999011854,7.186526913860446E-9],[67.49999999011854,11.178401880321333]]],"
-                + "\"type\":\"Polygon\"},\"relation\":0}";
-        SpatialFilter filter = SpatialFilter.create(sfStr);
+                + "[67.49999999011854,7.186526913860446E-9],[67.49999999011854,11.178401880321333]]]"
+                + "},\"relation\":0}";
+        SpatialFilter filter = JSON.parseObject(sfStr,SpatialFilter.class);
         Assert.assertTrue(filter.getGeometry() instanceof Polygon);
         String json = JsonUtils.toJsonString(filter);
         Assert.assertEquals(sfStr, json);
@@ -25,11 +25,12 @@ public class TestFilterJson {
 
     @Test
     public void testQueryFilterJson() {
-        String sfStr = "{\"geometry\":{\"coordinates\":[[[67.49999999011854,11.178401880321333],"
+        String sfStr = "{\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[67.49999999011854,11.178401880321333],"
                 + "[78.74999998966939,11.178401880321333],[78.74999998966939,7.186526913860446E-9],"
-                + "[67.49999999011854,7.186526913860446E-9],[67.49999999011854,11.178401880321333]]],"
-                + "\"type\":\"Polygon\"},\"relation\":0}";
-        SpatialFilter filter = SpatialFilter.create(sfStr);
+                + "[67.49999999011854,7.186526913860446E-9],[67.49999999011854,11.178401880321333]]]"
+                + "},\"relation\":0}";
+//        SpatialFilter filter = SpatialFilter.create(sfStr);
+        SpatialFilter filter = JSON.parseObject(sfStr,SpatialFilter.class);
         QueryFilter queryFilter = new QueryFilter();
         queryFilter.setCondition("foo = 1");
         queryFilter.setResultFields(new String[]{"foo1", "foo2"});
@@ -38,7 +39,7 @@ public class TestFilterJson {
 
         String qfJson = JsonUtils.toJsonString(queryFilter);
 
-        QueryFilter parsed = QueryFilter.create(qfJson);
+        QueryFilter parsed = JSON.parseObject(qfJson, QueryFilter.class);
         Assert.assertEquals(parsed.getResultCrs(),CRS.DEFAULT);
         String parsedJson = JSON.toJSONString(parsed);
 
