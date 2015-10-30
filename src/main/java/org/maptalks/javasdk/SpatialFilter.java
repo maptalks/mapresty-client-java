@@ -88,27 +88,4 @@ public class SpatialFilter {
     public void setRelation(final int relation) {
         this.relation = relation;
     }
-
-//    /**
-//     * 解析json字符串反序列化为SpatialFilter对象
-//     * @param json
-//     * @return
-//     */
-//    public static SpatialFilter create(String json) {
-//        SpatialFilter filter = JSON.parseObject(json, SpatialFilter.class, new ExtraProcessor() {
-//
-//            public void processExtra(Object o, String s, Object value) {
-//                if ("geometry".equals(s)) {
-//                    String type = ((JSONObject) value).getString("type");
-//                    if (type != null) {
-//                        Class clazz = GeoJSONFactory.getGeoJsonType(type);
-//                        Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) value), clazz);
-//                        ((SpatialFilter) o).setFilterGeometry(geo);
-//                    }
-//
-//                }
-//            }
-//        });
-//        return filter;
-//    }
 }
