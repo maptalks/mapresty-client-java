@@ -85,26 +85,4 @@ public class QueryFilter {
         this.returnGeometry = returnGeometry;
     }
 
-    /**
-     * 将 JSON 字符串反序列化为QueryFilter对象
-     * @param json
-     * @return
-     */
-    /*public static QueryFilter create(String json) {
-        QueryFilter filter = JSON.parseObject(json, QueryFilter.class, new ExtraProcessor() {
-
-            public void processExtra(Object o, String s, Object value) {
-                if ("geometry".equals(s)) {
-                    String type = ((JSONObject) value).getString("type");
-                    if (type != null) {
-                        Class clazz = GeoJSONFactory.getGeoJsonType(type);
-                        Geometry geo = (Geometry) JSON.toJavaObject(((JSONObject) value), clazz);
-                        ((SpatialFilter) o).setFilterGeometry(geo);
-                    }
-
-                }
-            }
-        });
-        return filter;
-    }*/
 }
