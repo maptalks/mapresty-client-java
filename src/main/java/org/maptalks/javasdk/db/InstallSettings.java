@@ -8,6 +8,14 @@ import org.maptalks.gis.core.geojson.CRS;
 public class InstallSettings {
     private CRS crs;
 
+    public void InstallSettings() {
+
+    }
+
+    public void InstallSettings(CRS crs) {
+        this.crs = crs;
+    }
+
     public CRS getCrs() {
         return crs;
     }
