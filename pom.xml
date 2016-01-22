@@ -36,7 +36,7 @@
     <dependency>
         <groupId>org.maptalks</groupId>
         <artifactId>maptalks-geojson</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.1.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
