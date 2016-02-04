@@ -135,13 +135,13 @@ public class FeatureLayer extends Layer {
      * @throws RestException
      * @throws IOException
      */
-    public void add(final Feature feature) throws IOException,
+    public void add(final Feature feature, CRS crs) throws IOException,
             RestException {
         if (feature == null)
             throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
                     "Geometry  is null");
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=create";
-        postRequest(url, JsonUtils.toJsonString(feature));
+        postRequest(url, JsonUtils.toJsonString(feature), crs);
     }
 
     /**
@@ -151,8 +151,8 @@ public class FeatureLayer extends Layer {
      * @throws IOException
      * @throws RestException
      */
-    public void add(Feature[] features) throws IOException, RestException {
-        this.add(Arrays.asList(features));
+    public void add(Feature[] features, CRS crs) throws IOException, RestException {
+        this.add(Arrays.asList(features), crs);
     }
 
     /**
@@ -162,13 +162,13 @@ public class FeatureLayer extends Layer {
      * @throws IOException
      * @throws RestException
      */
-    public void add(final List<Feature> features) throws IOException,
+    public void add(final List<Feature> features, CRS crs) throws IOException,
             RestException {
         if (features == null)
             throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
                     "Geometry  is null");
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=create";
-        postRequest(url, JsonUtils.toJsonString(features));
+        postRequest(url, JsonUtils.toJsonString(features), crs);
     }
 
     /**
@@ -199,7 +199,7 @@ public class FeatureLayer extends Layer {
      * @throws RestException
      * @throws IOException
      */
-    public void update(String condition, final Feature feature)
+    public void update(String condition, final Feature feature, CRS crs)
             throws IOException, RestException {
         if (feature == null) {
             throw new RestException(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT,
@@ -208,6 +208,9 @@ public class FeatureLayer extends Layer {
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=update";
         final Map<String, String> params = new HashMap<String, String>();
         params.put("data", JsonUtils.toJsonString(feature));
+        if (crs != null) {
+            params.put("crs", JSON.toJSONString(crs));
+        }
         params.put("condition", condition);
         HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
     }
@@ -238,7 +241,7 @@ public class FeatureLayer extends Layer {
      */
     public void removeAll() throws IOException, RestException {
         final String url = this.restURL + "layers/"+this.getId()+"/data?op=removeAll";
-        postRequest(url, null);
+        postRequest(url, null, null);
 
     }
 
@@ -263,10 +266,13 @@ public class FeatureLayer extends Layer {
         HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
     }
 
-    private void postRequest(final String url, final String data)
+    private void postRequest(final String url, final String data, CRS crs)
             throws IOException, RestException {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("data", data);
+        if (crs != null) {
+            params.put("crs", JSON.toJSONString(crs));
+        }
         HttpRestClient.doPost(url, params, this.mapDatabase.isUseGZIP());
     }
 

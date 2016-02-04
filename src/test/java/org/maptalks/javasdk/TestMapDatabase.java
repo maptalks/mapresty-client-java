@@ -57,7 +57,7 @@ public class TestMapDatabase {
             Point point = TestEnvironment.genPoint();
             Feature feature = new Feature(point);
             for (int i = 0; i < layerIds.length; i++) {
-                new FeatureLayer(layerIds[i], db).add(feature);
+                new FeatureLayer(layerIds[i], db).add(feature, null);
             }
 
             FeatureCollection[] collections = db.query(null, 0, 10, layerIds);

@@ -66,7 +66,7 @@ public abstract class TestFeatureQuery extends TestCommon {
                 }
             });
         }
-        featureLayer.add(features);
+        featureLayer.add(features, null);
     }
 
     @After

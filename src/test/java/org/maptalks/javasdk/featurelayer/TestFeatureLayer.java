@@ -73,7 +73,7 @@ public class TestFeatureLayer {
                 put("test2",2);
             }
         });
-        featureLayer.add(feature);
+        featureLayer.add(feature, null);
         Feature result = featureLayer.getFirst(null);
         Assert.assertEquals(feature, result);
 
@@ -91,7 +91,7 @@ public class TestFeatureLayer {
         });
         Feature f2 = (Feature) GeoJSONFactory.create(JSON.toJSONString(f1));
         f2.getProperties().put("test2",3);
-        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}));
+        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}), null);
         Feature[] result = featureLayer.query(null, 0, 10);
         Assert.assertTrue(result.length == 2);
         Assert.assertEquals(result[0], f1);
@@ -111,7 +111,7 @@ public class TestFeatureLayer {
         });
         Feature f2 = (Feature) GeoJSONFactory.create(JSON.toJSONString(f1));
         f2.getProperties().put("test2",3);
-        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}));
+        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}), null);
         Feature[] result = featureLayer.query(null, 0, 10);
         Assert.assertTrue(result.length == 2);
         featureLayer.removeAll();
@@ -128,7 +128,7 @@ public class TestFeatureLayer {
             }
         });
         try {
-            featureLayer.add(Arrays.asList(new Feature[]{f1}));
+            featureLayer.add(Arrays.asList(new Feature[]{f1}), null);
             Assert.assertEquals(1,2);//fail
         } catch (RestException e) {
             Assert.assertEquals(e.getErrCode(), ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT);
@@ -147,7 +147,7 @@ public class TestFeatureLayer {
         });
         Feature f2 = (Feature) GeoJSONFactory.create(JSON.toJSONString(f1));
         f2.getProperties().put("test2", 3);
-        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}));
+        featureLayer.add(Arrays.asList(new Feature[]{f1, f2}), null);
 
         featureLayer.updateProperties("test1 = 'test1'",new HashMap<String, Object>() {
             {

@@ -143,7 +143,7 @@ public abstract class TestCRUD extends TestCommon {
         properties.put("test1", "haha");
         properties.put("test2", 2);
         feature.setProperties(properties);
-        featureLayer.add(feature);
+        featureLayer.add(feature, null);
 
         StringWriter writer = new StringWriter();
 
@@ -169,7 +169,7 @@ public abstract class TestCRUD extends TestCommon {
         properties.put("test1", "hehe");
         properties.put("test2", 0);
         feature.setProperties(properties);
-        featureLayer.update(eq("test1", "haha"), feature);
+        featureLayer.update(eq("test1", "haha"), feature, null);
 
         queryFilter.setCondition(eq("test1", "hehe"));
         result = featureLayer.queryJson(queryFilter, 0, 10);
