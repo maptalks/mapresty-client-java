@@ -8,12 +8,12 @@ import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Point;
-import org.maptalks.javasdk.FeatureLayer;
-import org.maptalks.javasdk.MapDatabase;
-import org.maptalks.javasdk.Settings;
+import org.maptalks.gis.core.geojson.ext.Circle;
+import org.maptalks.javasdk.*;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
 import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
+import org.maptalks.proj4.Proj4;
 
 import java.util.Arrays;
 
@@ -57,20 +57,69 @@ public class TestCRS {
         final Layer layer = mapService.getLayer(TEST_LAYER_IDENTIFIER);
         Assert.assertNull(layer);
     }
+
     @Test
     public void testAdd() throws Exception {
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), CRS.BD09LL);
         Feature[] collection = featureLayer.query(null,0,1);
         Feature actual = collection[0];
-        Assert.assertFalse(Arrays.equals(point.getCoordinates(), ((Point) actual.getGeometry()).getCoordinates()));
+        Assert.assertArrayEquals(proj4.forward(point.getCoordinates()) , ((Point) actual.getGeometry()).getCoordinates(), 0);
+    }
+
+    @Test
+    public void testAddWithDbCRS() throws Exception {
+        Point point = TestEnvironment.genPoint();
+        featureLayer.add(new Feature(point), mapService.getDatabaseInfo().getCRS() );
+        Feature[] collection = featureLayer.query(null,0,1);
+        Feature actual = collection[0];
+        Assert.assertArrayEquals(point.getCoordinates() , ((Point) actual.getGeometry()).getCoordinates(), 0);
+    }
+
+    @Test
+    public void testQuery() throws Exception {
+        Point point = TestEnvironment.genPoint();
+        featureLayer.add(new Feature(point), null);
+        Feature[] collection = featureLayer.query(null,0,1);
+        Feature actual = collection[0];
+        Assert.assertArrayEquals(point.getCoordinates() , ((Point) actual.getGeometry()).getCoordinates(), 0);
+    }
+
+    @Test
+    public void testQueryResultCRS() throws Exception {
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
+        Point point = TestEnvironment.genPoint();
+        featureLayer.add(new Feature(point), null);
+        QueryFilter filter = new QueryFilter();
+        filter.setResultCRS(CRS.BD09LL);
+        Feature[] collection = featureLayer.query(filter,0,1);
+        Feature actual = collection[0];
+        Assert.assertArrayEquals(proj4.inverse(point.getCoordinates()) , ((Point) actual.getGeometry()).getCoordinates(), 0);
+    }
+
+    @Test
+    public void testSpatialFilterCRS() throws Exception {
+        Point point = TestEnvironment.genPoint();
+        featureLayer.add(new Feature(point), null);
+        QueryFilter filter = new QueryFilter();
+        SpatialFilter sf = new SpatialFilter(new Circle(point.getCoordinates(), 1), SpatialFilter.RELATION_INTERSECT);
+        filter.setSpatialFilter(sf);
+        Feature[] collection = featureLayer.query(filter,0,1);
+        Assert.assertTrue(collection.length == 1);
+
+        sf.setCRS(CRS.BD09LL);
+        filter.setSpatialFilter(sf);
+        collection = featureLayer.query(filter,0,1);
+        Assert.assertTrue(collection.length == 0);
     }
 
     @Test
     public void testBatchAdd() throws Exception {
-        Feature[] features = new Feature[100];
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
+        Feature[] features = new Feature[10];
         Point point = TestEnvironment.genPoint();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             features[i] = new Feature(point);
         }
         featureLayer.add(features, CRS.BD09LL);
@@ -78,12 +127,13 @@ public class TestCRS {
         Assert.assertEquals(actual.length, features.length);
         for (int i = 0; i < features.length; i++) {
             Point p = ((Point) features[i].getGeometry());
-            Assert.assertFalse(Arrays.equals(p.getCoordinates() , ((Point) actual[i].getGeometry()).getCoordinates()));
+            Assert.assertArrayEquals(proj4.forward(p.getCoordinates()) , ((Point) actual[i].getGeometry()).getCoordinates(), 0);
         }
     }
 
     @Test
     public void testUpdate() throws Exception {
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), null);
         Feature[] collection = featureLayer.query(null,0,1);
@@ -93,6 +143,6 @@ public class TestCRS {
         featureLayer.update("1=1",new Feature(point), CRS.BD09LL );
         collection = featureLayer.query(null,0,1);
         actual = collection[0];
-        Assert.assertFalse(Arrays.equals(point.getCoordinates() , ((Point) actual.getGeometry()).getCoordinates()));
+        Assert.assertArrayEquals(proj4.forward(point.getCoordinates()) , ((Point) actual.getGeometry()).getCoordinates(), 0);
     }
 }
