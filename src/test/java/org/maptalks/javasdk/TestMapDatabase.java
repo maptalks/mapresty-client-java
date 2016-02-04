@@ -32,7 +32,7 @@ public class TestMapDatabase {
         MapDatabase db = this.getMapDatabase();
         DBInfo dbInfo = db.getDatabaseInfo();
         Assert.assertNotNull(dbInfo);
-        Assert.assertTrue(dbInfo.getCrs().equals(CRS.GCJ02));
+        Assert.assertTrue(dbInfo.getCRS().equals(CRS.DEFAULT));
         Assert.assertEquals(Settings.TEST_DB, dbInfo.getName());
     }
 

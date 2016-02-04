@@ -66,11 +66,11 @@ public class QueryFilter {
         this.resultFields = resultFields;
     }
 
-    public CRS getResultCrs() {
+    public CRS getResultCRS() {
         return crs;
     }
 
-    public void setResultCrs(CRS crs) {
+    public void setResultCRS(CRS crs) {
         this.crs = crs;
     }
 

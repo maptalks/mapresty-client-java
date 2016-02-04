@@ -34,13 +34,13 @@ public class TestFilterJson {
         QueryFilter queryFilter = new QueryFilter();
         queryFilter.setCondition("foo = 1");
         queryFilter.setResultFields(new String[]{"foo1", "foo2"});
-        queryFilter.setResultCrs(CRS.DEFAULT);
+        queryFilter.setResultCRS(CRS.DEFAULT);
         queryFilter.setSpatialFilter(filter);
 
         String qfJson = JsonUtils.toJsonString(queryFilter);
-
+        System.out.println(qfJson);
         QueryFilter parsed = JSON.parseObject(qfJson, QueryFilter.class);
-        Assert.assertEquals(parsed.getResultCrs(),CRS.DEFAULT);
+        Assert.assertEquals(parsed.getResultCRS(),CRS.DEFAULT);
         String parsedJson = JSON.toJSONString(parsed);
 
         Assert.assertEquals(qfJson, parsedJson);

@@ -3,7 +3,8 @@ package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.deserializer.ExtraProcessor;
+import com.alibaba.fastjson.annotation.JSONField;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Geometry;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 
@@ -53,6 +54,8 @@ public class SpatialFilter {
      */
     private int relation;
 
+    private CRS crs;
+
     public SpatialFilter() {
 
     }
@@ -87,5 +90,15 @@ public class SpatialFilter {
 
     public void setRelation(final int relation) {
         this.relation = relation;
+    }
+
+    @JSONField(name="crs")
+    public CRS getCRS() {
+        return crs;
+    }
+
+    @JSONField(name="crs")
+    public void setCRS(CRS crs) {
+        this.crs = crs;
     }
 }

@@ -287,12 +287,6 @@ public class FeatureLayer extends Layer {
             return new Feature[0];
         }
         Feature[] features = matrix[0].getFeatures();
-        CRS crs = matrix[0].getCrs();
-        if (crs != null) {
-            for (Feature feature : features) {
-                feature.setCrs(crs);
-            }
-        }
         return features;
     }
 
@@ -345,9 +339,9 @@ public class FeatureLayer extends Layer {
             params.put("spatialFilter", JsonUtils.toJsonString(spatialFilter));
         }
 
-        CRS resultCRS = queryFilter.getResultCrs();
+        CRS resultCRS = queryFilter.getResultCRS();
         if (resultCRS != null) {
-            params.put("resultCrs", resultCRS.toString());
+            params.put("resultCRS", resultCRS.toString());
         }
         params.put("returnGeometry", queryFilter.isReturnGeometry() + "");
 

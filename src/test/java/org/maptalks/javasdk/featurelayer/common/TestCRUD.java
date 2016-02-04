@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.FeatureCollection;
 import org.maptalks.gis.core.geojson.Geometry;
-import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.gis.core.geojson.ext.GeometryExt;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
@@ -181,7 +180,7 @@ public abstract class TestCRUD extends TestCommon {
         Assert.assertEquals(0, retAttr.get("test2"));
         featureLayer.remove(eq("test1", "hehe"));
         result = featureLayer.queryJson(queryFilter, 0, 10);
-        Assert.assertEquals(result, "[{\"features\":[],\"crs\":{\"type\":\"cnCoordinateType\",\"properties\":{\"name\":\"gcj02\"}},\"type\":\"FeatureCollection\",\"layer\":\""+TEST_LAYER_IDENTIFIER+"\"}]");
+        Assert.assertEquals(result, "[{\"features\":[],\"type\":\"FeatureCollection\",\"layer\":\""+TEST_LAYER_IDENTIFIER+"\"}]");
     }
 
     private boolean isSpatial(Layer layer) {

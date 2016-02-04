@@ -4,9 +4,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.Geometry;
-import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.javasdk.*;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
@@ -162,7 +162,7 @@ public abstract class TestFeatureQuery extends TestCommon {
     @Test
     public void testCoordinateType() throws IOException, RestException {
         QueryFilter filter = new QueryFilter();
-        filter.setResultCrs(CoordinateType.bd09ll.toCRS());
+        filter.setResultCRS(CRS.BD09LL);
         Feature[] result = featureLayer.query(filter, 0, Integer.MAX_VALUE);
         Assert.assertEquals(result.length, features.length);
         for (int i = 0; i < result.length; i++) {

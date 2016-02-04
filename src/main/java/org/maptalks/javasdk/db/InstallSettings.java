@@ -1,5 +1,6 @@
 package org.maptalks.javasdk.db;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.maptalks.gis.core.geojson.CRS;
 
 /**
@@ -16,11 +17,13 @@ public class InstallSettings {
         this.crs = crs;
     }
 
-    public CRS getCrs() {
+    @JSONField(name="crs")
+    public CRS getCRS() {
         return crs;
     }
 
-    public void setCrs(CRS crs) {
+    @JSONField(name="crs")
+    public void setCRS(CRS crs) {
         this.crs = crs;
     }
 }

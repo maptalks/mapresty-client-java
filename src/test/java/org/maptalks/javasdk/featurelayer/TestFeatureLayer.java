@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.maptalks.gis.core.geojson.CRS;
 import org.maptalks.gis.core.geojson.Feature;
 import org.maptalks.gis.core.geojson.Point;
-import org.maptalks.gis.core.geojson.common.CoordinateType;
 import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
@@ -42,7 +41,7 @@ public class TestFeatureLayer {
     public void prepare() throws Exception {
         mapService = this.getMapDatabase();
 
-        crs = CoordinateType.DEFAULT.toCRS();
+        crs = CRS.DEFAULT;
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setType(TestEnvironment.LAYER_TYPE);
