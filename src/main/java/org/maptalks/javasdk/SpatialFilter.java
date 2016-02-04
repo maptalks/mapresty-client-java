@@ -65,6 +65,12 @@ public class SpatialFilter {
         this.relation = relation;
     }
 
+    public SpatialFilter(Geometry geometry, int relation, CRS crs) {
+        this.geometry = geometry;
+        this.relation = relation;
+        this.crs = crs;
+    }
+
     public Geometry getGeometry() {
         return geometry;
     }
