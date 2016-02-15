@@ -23,7 +23,7 @@
     <repository>
       <id>maptalks-mvn-repo</id>
         <name>maptalks Maven Repository</name>
-      <url>http://raw.github.com/maptalks/mvn-repo/master/</url>
+      <url>https://raw.github.com/maptalks/mvn-repo/master/</url>
       <snapshots>
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
