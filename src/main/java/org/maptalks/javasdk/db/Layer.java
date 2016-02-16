@@ -9,29 +9,29 @@ public class Layer {
 	public static final String TYPE_DB_SPATIAL_TABLE = "db_spatial_table";
 	public static final String TYPE_DB_SPATIAL_VIEW = "db_spatial_view";
 	public static final String TYPE_FILE_SHP = "file_shp";
-    //---------ÒÔÏÂ¶¨ÒåÁËÅäÖÃÏî³£Á¿,¼´propertiesÊôĞÔÖĞµÄÅäÖÃÏîÃû³Æ
+    //---------ä»¥ä¸‹å®šä¹‰äº†é…ç½®é¡¹å¸¸é‡,å³propertieså±æ€§ä¸­çš„é…ç½®é¡¹åç§°
     /**
-     * mysqlµÄÊı¾İ±íÒıÇæ, innodb»òmyISAM
+     * mysqlçš„æ•°æ®è¡¨å¼•æ“, innodbæˆ–myISAM
      */
     public static final String PROPERTY_MYSQL_ENGINE="engine";
     public static final String PROPERTY_MYSQL_ENGINE_DEFAULT="MyISAM";
     /**
-     * shapefileµÄencoding
+     * shapefileçš„encoding
      */
     public static final String PROPERTY_SHP_ENCODING="encoding";
     public static final String PROPERTY_SHP_ENCODING_DEFAULT="utf-8";
     /**
-     * ÔØÈëµÄDBFÊôĞÔÁĞ±í,ÊôĞÔÒÔ¶ººÅ·Ö¸ô,Ä¬ÈÏÎª¿Õ,¼´²»ÔØÈë
+     * è½½å…¥çš„DBFå±æ€§åˆ—è¡¨,å±æ€§ä»¥é€—å·åˆ†éš”,é»˜è®¤ä¸ºç©º,å³ä¸è½½å…¥
      */
     public static final String PROPERTY_SHP_PROPERTY ="property";
     public static final String PROPERTY_SHP_PROPERTY_DEFAULT =null;
     /**
-     * ShapeFileµÄ×ø±êÀàĞÍ
+     * ShapeFileçš„åæ ‡ç±»å‹
      */
     public static final String PROPERTY_SHP_CRS="crs";
 
     /**
-     * ÊÇ·ñ½¨Á¢Ë÷Òı
+     * æ˜¯å¦å»ºç«‹ç´¢å¼•
      */
     public static final String PROPERTY_CREATE_INDEX="createindex";
     public static final boolean PROPERTY_CREATE_INDEX_DEFAULT=true;
