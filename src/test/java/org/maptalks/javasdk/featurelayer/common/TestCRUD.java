@@ -12,13 +12,12 @@ import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
 import org.maptalks.javasdk.QueryFilter;
+import org.maptalks.javasdk.db.Layer;
+import org.maptalks.javasdk.db.LayerField;
 
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.maptalks.javasdk.db.Layer;
-import org.maptalks.javasdk.db.LayerField;
 
 /**
  * Created by fuzhen on 2015/9/18.
@@ -180,7 +179,7 @@ public abstract class TestCRUD extends TestCommon {
         Assert.assertEquals(0, retAttr.get("test2"));
         featureLayer.remove(eq("test1", "hehe"));
         result = featureLayer.queryJson(queryFilter, 0, 10);
-        Assert.assertEquals(result, "[{\"features\":[],\"type\":\"FeatureCollection\",\"layer\":\""+TEST_LAYER_IDENTIFIER+"\"}]");
+        Assert.assertEquals("[{\"features\":[],\"layer\":\""+TEST_LAYER_IDENTIFIER+"\",\"type\":\"FeatureCollection\"}]", result);
     }
 
     private boolean isSpatial(Layer layer) {
