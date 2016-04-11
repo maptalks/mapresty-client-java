@@ -1,21 +1,17 @@
 package org.maptalks.javasdk;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import org.maptalks.gis.core.geojson.Feature;
-import org.maptalks.gis.core.geojson.FeatureCollection;
-import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
+import org.maptalks.geojson.FeatureCollection;
+import org.maptalks.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.db.InstallSettings;
+import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
-import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.http.RestResult;
 import org.maptalks.javasdk.utils.ArrayUtils;
-import org.maptalks.javasdk.utils.JsonUtils;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +40,8 @@ public class MapDatabase {
     public MapDatabase(final String host, int port, final String db) {
         this.db = db;
         this.host = host+":"+port;
-        this.restURL = "http://" + this.host + "/enginerest/";
-        this.dbRestURL = this.restURL + "rest/databases/" + db + "/";
+        this.restURL = "http://" + this.host + "/rest/";
+        this.dbRestURL = this.restURL + "sdb/databases/" + db + "/";
     }
 
     /**

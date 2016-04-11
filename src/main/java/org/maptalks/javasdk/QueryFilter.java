@@ -1,11 +1,6 @@
 package org.maptalks.javasdk;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.deserializer.ExtraProcessor;
-import org.maptalks.gis.core.geojson.CRS;
-import org.maptalks.gis.core.geojson.Geometry;
-import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
+import org.maptalks.geojson.CRS;
 
 /**
  * 查询条件类

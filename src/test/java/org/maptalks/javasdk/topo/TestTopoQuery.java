@@ -3,12 +3,14 @@ package org.maptalks.javasdk.topo;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.maptalks.gis.core.geojson.*;
+import org.maptalks.geojson.*;
 import org.maptalks.javasdk.SpatialFilter;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
 
 import java.io.IOException;
+
+import static org.maptalks.javasdk.Settings.TEST_PORT;
 
 /**
  * Created by fuzhen on 2015/10/29.
@@ -19,7 +21,7 @@ public class TestTopoQuery {
 
     @Before
     public void prepare() {
-        topoQuery = new TopoQuery("localhost",8090);
+        topoQuery = new TopoQuery("localhost",TEST_PORT);
         baseGeometries = TestEnvironment.genAllGeometries();
     }
 

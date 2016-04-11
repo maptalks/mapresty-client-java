@@ -3,8 +3,8 @@ package org.maptalks.javasdk;
 import com.alibaba.fastjson.JSON;
 import org.junit.Assert;
 import org.junit.Test;
-import org.maptalks.gis.core.geojson.CRS;
-import org.maptalks.gis.core.geojson.Polygon;
+import org.maptalks.geojson.CRS;
+import org.maptalks.geojson.Polygon;
 import org.maptalks.javasdk.utils.JsonUtils;
 
 /**
