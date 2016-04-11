@@ -4,9 +4,9 @@ package org.maptalks.javasdk;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import org.maptalks.gis.core.geojson.CRS;
-import org.maptalks.gis.core.geojson.Geometry;
-import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
+import org.maptalks.geojson.CRS;
+import org.maptalks.geojson.Geometry;
+import org.maptalks.geojson.json.GeoJSONFactory;
 
 /**
  * 空间查询条件类

@@ -1,42 +1,43 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.maptalks</groupId>
-  <artifactId>maptalks-java</artifactId>
-  <version>2.1.0-SNAPSHOT</version>
+  <artifactId>mapresty-client</artifactId>
+  <version>2.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>maptalks-java</name>
-  <url>http://maven.apache.org</url>
+  <name>mapresty client</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jdk.version>1.5</jdk.version>
     <mvn-repo.path>${user.home}/repos/mvn-repo</mvn-repo.path>
-      <jdk.version>1.5</jdk.version>
-
-    <project.release.version>2.0.0-SNAPSHOT</project.release.version>
   </properties>
 
-  <repositories>
+  <scm>
+    <connection>scm:git:https://github.com/MapTalks/mapresty-client-java</connection>
+    <developerConnection>scm:git:git@github.com:MapTalks/mapresty-client-java.git</developerConnection>
+    <url>https://github.com/MapTalks/mapresty-client-java</url>
+  </scm>
 
+  <repositories>
     <repository>
       <id>maptalks-mvn-repo</id>
-        <name>maptalks Maven Repository</name>
+      <name>maptalks Maven Repository</name>
       <url>https://raw.github.com/maptalks/mvn-repo/master/</url>
       <snapshots>
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
       </snapshots>
     </repository>
-
   </repositories>
 
   <dependencies>
     <dependency>
-        <groupId>org.maptalks</groupId>
-        <artifactId>maptalks-geojson</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+      <groupId>org.maptalks</groupId>
+      <artifactId>geojson4j</artifactId>
+      <version>2.0.0</version>
     </dependency>
 
     <dependency>
@@ -48,65 +49,73 @@
   </dependencies>
 
   <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
-            <url>file://${mvn-repo.path}</url>
-        </repository>
-    </distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${mvn-repo.path}</url>
+    </repository>
+  </distributionManagement>
 
-    <profiles>
-        <profile>
-            <id>product</id>
-            <properties>
-                <project.release.version>2.0.0</project.release.version>
-            </properties>
-        </profile>
-    </profiles>
+  <build>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+    <plugins>
 
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${mvn-repo.path}</altDeploymentRepository>
-                </configuration>
-            </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-        </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.2</version>
+      </plugin>
 
-    </build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <javadocVersion>${jdk.version}</javadocVersion>
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.18.1</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
 </project>

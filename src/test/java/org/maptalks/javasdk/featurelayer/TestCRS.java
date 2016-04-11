@@ -4,18 +4,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.maptalks.gis.core.geojson.CRS;
-import org.maptalks.gis.core.geojson.Feature;
-import org.maptalks.gis.core.geojson.FeatureCollection;
-import org.maptalks.gis.core.geojson.Point;
-import org.maptalks.gis.core.geojson.ext.Circle;
+import org.maptalks.geojson.CRS;
+import org.maptalks.geojson.Feature;
+import org.maptalks.geojson.Point;
+import org.maptalks.geojson.ext.Circle;
 import org.maptalks.javasdk.*;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
 import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
 import org.maptalks.proj4.Proj4;
-
-import java.util.Arrays;
 
 /**
  * Created by dusci on 2016/2/4.
@@ -60,7 +57,7 @@ public class TestCRS {
 
     @Test
     public void testAdd() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), CRS.BD09LL);
         Feature[] collection = featureLayer.query(null,0,1);
@@ -88,7 +85,7 @@ public class TestCRS {
 
     @Test
     public void testQueryResultCRS() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), null);
         QueryFilter filter = new QueryFilter();
@@ -116,7 +113,7 @@ public class TestCRS {
 
     @Test
     public void testBatchAdd() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
         Feature[] features = new Feature[10];
         Point point = TestEnvironment.genPoint();
         for (int i = 0; i < 10; i++) {
@@ -133,7 +130,7 @@ public class TestCRS {
 
     @Test
     public void testUpdate() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.GCJ02));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), null);
         Feature[] collection = featureLayer.query(null,0,1);

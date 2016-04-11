@@ -1,10 +1,10 @@
 package org.maptalks.javasdk.featurelayer.common;
 
-import org.maptalks.gis.core.geojson.*;
-import org.maptalks.gis.core.geojson.ext.Circle;
-import org.maptalks.gis.core.geojson.ext.Ellipse;
-import org.maptalks.gis.core.geojson.ext.Rectangle;
-import org.maptalks.gis.core.geojson.ext.Sector;
+import org.maptalks.geojson.*;
+import org.maptalks.geojson.ext.Circle;
+import org.maptalks.geojson.ext.Ellipse;
+import org.maptalks.geojson.ext.Rectangle;
+import org.maptalks.geojson.ext.Sector;
 import org.maptalks.javasdk.db.Layer;
 
 /**

@@ -1,7 +1,7 @@
 package org.maptalks.javasdk.db;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import org.maptalks.gis.core.geojson.CRS;
+import org.maptalks.geojson.CRS;
 
 /**
  * Created by fuzhen on 2015/9/21.

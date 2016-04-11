@@ -1,11 +1,12 @@
 package org.maptalks.javasdk;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.maptalks.gis.core.geojson.CRS;
-import org.maptalks.gis.core.geojson.Feature;
-import org.maptalks.gis.core.geojson.FeatureCollection;
-import org.maptalks.gis.core.geojson.Point;
+import org.maptalks.geojson.CRS;
+import org.maptalks.geojson.Feature;
+import org.maptalks.geojson.FeatureCollection;
+import org.maptalks.geojson.Point;
 import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
@@ -15,6 +16,9 @@ import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
 import java.io.IOException;
 import java.util.List;
 
+import static org.maptalks.javasdk.Settings.TEST_DB;
+import static org.maptalks.javasdk.Settings.TEST_PORT;
+
 
 /**
  * Created by fuzhen on 2015/9/18.
@@ -23,7 +27,7 @@ public class TestMapDatabase {
     protected final String TEST_LAYER_IDENTIFIER = "JUNIT"
             + System.currentTimeMillis();
     protected MapDatabase getMapDatabase() {
-        MapDatabase db = new MapDatabase(Settings.TEST_HOST, Settings.TEST_PORT, Settings.TEST_DB);
+        MapDatabase db = new MapDatabase(Settings.TEST_HOST, Settings.TEST_PORT, TEST_DB);
         return db;
     }
 
@@ -33,13 +37,14 @@ public class TestMapDatabase {
         DBInfo dbInfo = db.getDatabaseInfo();
         Assert.assertNotNull(dbInfo);
         Assert.assertTrue(dbInfo.getCRS().equals(CRS.DEFAULT));
-        Assert.assertEquals(Settings.TEST_DB, dbInfo.getName());
+        Assert.assertEquals(TEST_DB, dbInfo.getName());
     }
 
-//    @Test
+    @Test
+    @Ignore
     //install map service on database
     public void testInstall() throws IOException, RestException {
-        MapDatabase db = new MapDatabase("localhost",8090,"default");
+        MapDatabase db = new MapDatabase("localhost",TEST_PORT,TEST_DB);
         db.install(null);
     }
 

@@ -1,8 +1,8 @@
 package org.maptalks.javasdk.topo;
 
 import com.alibaba.fastjson.JSON;
-import org.maptalks.gis.core.geojson.Geometry;
-import org.maptalks.gis.core.geojson.json.GeoJSONFactory;
+import org.maptalks.geojson.Geometry;
+import org.maptalks.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
 
@@ -29,7 +29,7 @@ public class TopoQuery {
     public TopoQuery(final String host, int port) {
 
         this.host = host+":"+port;
-        this.restURL = "http://" + this.host + "/enginerest/";
+        this.restURL = "http://" + this.host + "/rest/";
     }
 
     /**
