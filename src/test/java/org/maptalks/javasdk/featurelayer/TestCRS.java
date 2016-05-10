@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.maptalks.geojson.CRS;
 import org.maptalks.geojson.Feature;
 import org.maptalks.geojson.Point;
-import org.maptalks.geojson.ext.Circle;
+import org.maptalks.geojson.Polygon;
 import org.maptalks.javasdk.*;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.db.LayerField;
@@ -33,7 +33,7 @@ public class TestCRS {
     public void prepare() throws Exception {
         mapService = this.getMapDatabase();
 
-        crs = CRS.DEFAULT;
+        crs = mapService.getDatabaseInfo().getCRS();
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setType(TestEnvironment.LAYER_TYPE);
@@ -57,7 +57,7 @@ public class TestCRS {
 
     @Test
     public void testAdd() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(this.crs));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), CRS.BD09LL);
         Feature[] collection = featureLayer.query(null,0,1);
@@ -85,7 +85,7 @@ public class TestCRS {
 
     @Test
     public void testQueryResultCRS() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(this.crs));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), null);
         QueryFilter filter = new QueryFilter();
@@ -99,12 +99,29 @@ public class TestCRS {
     public void testSpatialFilterCRS() throws Exception {
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), null);
+
+        double delta = 1E-6;
+        double[] center = point.getCoordinates();
+        double[][] shell = new double[][]{
+            new double[]{center[0] - delta, center[1] - delta},
+            new double[]{center[0] - delta, center[1] + delta},
+            new double[]{center[0] + delta, center[1] + delta},
+            new double[]{center[0] + delta, center[1] - delta},
+            new double[]{center[0] - delta, center[1] - delta}
+        };
+
         QueryFilter filter = new QueryFilter();
-        SpatialFilter sf = new SpatialFilter(new Circle(point.getCoordinates(), 1), SpatialFilter.RELATION_INTERSECT);
+        SpatialFilter sf = new SpatialFilter(new Polygon(new double[][][]{shell}), SpatialFilter.RELATION_INTERSECT);
         filter.setSpatialFilter(sf);
         Feature[] collection = featureLayer.query(filter,0,1);
         Assert.assertTrue(collection.length == 1);
 
+        //spatial filter's CRS will be set to the same as QueryFilter's resultCRS
+        filter.setResultCRS(CRS.BD09LL);
+        collection = featureLayer.query(filter,0,1);
+        Assert.assertTrue(collection.length == 0);
+
+        filter.setResultCRS(null);
         sf.setCRS(CRS.BD09LL);
         filter.setSpatialFilter(sf);
         collection = featureLayer.query(filter,0,1);
@@ -113,7 +130,7 @@ public class TestCRS {
 
     @Test
     public void testBatchAdd() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(this.crs));
         Feature[] features = new Feature[10];
         Point point = TestEnvironment.genPoint();
         for (int i = 0; i < 10; i++) {
@@ -130,7 +147,7 @@ public class TestCRS {
 
     @Test
     public void testUpdate() throws Exception {
-        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(CRS.DEFAULT));
+        Proj4 proj4 = new Proj4(CRS.getProj4(CRS.BD09LL), CRS.getProj4(this.crs));
         Point point = TestEnvironment.genPoint();
         featureLayer.add(new Feature(point), null);
         Feature[] collection = featureLayer.query(null,0,1);

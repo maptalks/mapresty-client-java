@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static org.junit.Assert.fail;
+
 /**
  * Created by fuzhen on 2015/9/19.
  */
@@ -41,7 +43,7 @@ public class TestFeatureLayer {
     public void prepare() throws Exception {
         mapService = this.getMapDatabase();
 
-        crs = CRS.DEFAULT;
+        crs = mapService.getDatabaseInfo().getCRS();
         final Layer testLayer = new Layer();
         testLayer.setId(TEST_LAYER_IDENTIFIER);
         testLayer.setType(TestEnvironment.LAYER_TYPE);
@@ -129,7 +131,7 @@ public class TestFeatureLayer {
         });
         try {
             featureLayer.add(Arrays.asList(new Feature[]{f1}), null);
-            Assert.assertEquals(1,2);//fail
+           fail();
         } catch (RestException e) {
             Assert.assertEquals(e.getErrCode(), ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT);
         }

@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.maptalks.geojson.Feature;
 import org.maptalks.geojson.FeatureCollection;
 import org.maptalks.geojson.Geometry;
-import org.maptalks.geojson.ext.GeometryExt;
 import org.maptalks.geojson.json.GeoJSONFactory;
 import org.maptalks.javasdk.FeatureLayer;
 import org.maptalks.javasdk.MapDatabase;
@@ -106,30 +105,7 @@ public abstract class TestCRUD extends TestCommon {
 
     }
 
-    @Test
-    public void testCircle() throws Exception {
-        Layer layer = mapService.getLayer(TEST_LAYER_IDENTIFIER);
-        Geometry geometry = TestEnvironment.genCircle();
-        testCRUD(geometry);
-    }
 
-    @Test
-    public void testEllipse() throws Exception {
-        Geometry geometry = TestEnvironment.genEllipse();
-        testCRUD(geometry);
-    }
-
-    @Test
-    public void testRectangle() throws Exception {
-        Geometry geometry = TestEnvironment.genRectangle();
-        testCRUD(geometry);
-    }
-
-    @Test
-    public void testSector() throws Exception {
-        Geometry geometry = TestEnvironment.genSector();
-        testCRUD(geometry);
-    }
 
 
     public void testCRUD(Geometry geometry) throws Exception {
@@ -156,12 +132,6 @@ public abstract class TestCRUD extends TestCommon {
         Assert.assertEquals(1, collections[0].getFeatures().length);
         Feature queryGeo = collections[0].getFeatures()[0];
 
-        /*
-         * TODO Spatial类型的图层不支持circle, ellipse等非WKB图形
-         */
-        if (!isSpatial(layer) && !(feature.getGeometry() instanceof GeometryExt)) {
-            Assert.assertTrue(queryGeo.equals(feature));
-        }
 
         Assert.assertEquals("haha", queryGeo.getProperties().get("test1"));
         Assert.assertEquals(2, queryGeo.getProperties().get("test2"));
@@ -179,7 +149,7 @@ public abstract class TestCRUD extends TestCommon {
         Assert.assertEquals(0, retAttr.get("test2"));
         featureLayer.remove(eq("test1", "hehe"));
         result = featureLayer.queryJson(queryFilter, 0, 10);
-        Assert.assertEquals("[{\"features\":[],\"layer\":\""+TEST_LAYER_IDENTIFIER+"\",\"type\":\"FeatureCollection\"}]", result);
+        Assert.assertEquals("[{\"features\":[],\"type\":\"FeatureCollection\",\"layer\":\""+TEST_LAYER_IDENTIFIER+"\"}]", result);
     }
 
     private boolean isSpatial(Layer layer) {

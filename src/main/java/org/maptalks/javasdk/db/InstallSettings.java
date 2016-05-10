@@ -9,11 +9,11 @@ import org.maptalks.geojson.CRS;
 public class InstallSettings {
     private CRS crs;
 
-    public void InstallSettings() {
+    public InstallSettings() {
 
     }
 
-    public void InstallSettings(CRS crs) {
+    public InstallSettings(CRS crs) {
         this.crs = crs;
     }
 

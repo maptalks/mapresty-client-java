@@ -1,10 +1,6 @@
 package org.maptalks.javasdk.featurelayer.common;
 
 import org.maptalks.geojson.*;
-import org.maptalks.geojson.ext.Circle;
-import org.maptalks.geojson.ext.Ellipse;
-import org.maptalks.geojson.ext.Rectangle;
-import org.maptalks.geojson.ext.Sector;
 import org.maptalks.javasdk.db.Layer;
 
 /**
@@ -21,11 +17,7 @@ public class TestEnvironment {
                 genPolygon(),
                 genMultipoint(),
                 genMultiPolyline(),
-                genMultiPolygon(),
-                genCircle(),
-                genEllipse(),
-                genRectangle(),
-                genSector()
+                genMultiPolygon()
         };
         return geometries;
     }
@@ -122,38 +114,5 @@ public class TestEnvironment {
                 genMultiPolygon()
         };
         return new GeometryCollection(geometries);
-    }
-
-    /**
-     * 生成圆形
-     * @return
-     */
-    public static Circle genCircle() {
-        return new Circle(new double[]{109,32},1000d);
-    }
-
-    /**
-     * 生成椭圆
-     * @return
-     */
-    public static Geometry genEllipse() {
-        return new Ellipse(new double[]{109,32},1000d,500d);
-    }
-
-    /**
-     * 生成矩形
-     * @return
-     */
-    public static Geometry genRectangle() {
-
-        return new Rectangle(new double[]{109,32},1000d,500d);
-    }
-
-    /**
-     * 生成扇形
-     * @return
-     */
-    public static Geometry genSector() {
-        return new Sector(new double[]{109,32},1000d,30,120);
     }
 }

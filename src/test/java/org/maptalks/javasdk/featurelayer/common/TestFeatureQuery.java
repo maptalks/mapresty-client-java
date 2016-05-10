@@ -174,7 +174,7 @@ public abstract class TestFeatureQuery extends TestCommon {
     public void testSpatialFilter() throws IOException, RestException {
         SpatialFilter spatialFilter = new SpatialFilter();
         spatialFilter.setRelation(SpatialFilter.RELATION_WITHIN);
-        spatialFilter.setGeometry(TestEnvironment.genCircle());
+        spatialFilter.setGeometry(TestEnvironment.genPolygon());
         QueryFilter filter = new QueryFilter();
         filter.setSpatialFilter(spatialFilter);
         Feature[] result = featureLayer.query(filter, 0, Integer.MAX_VALUE);
