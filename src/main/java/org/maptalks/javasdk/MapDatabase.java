@@ -3,6 +3,7 @@ package org.maptalks.javasdk;
 import com.alibaba.fastjson.JSON;
 import org.maptalks.geojson.FeatureCollection;
 import org.maptalks.geojson.json.GeoJSONFactory;
+import org.maptalks.javasdk.db.BulkData;
 import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.db.InstallSettings;
 import org.maptalks.javasdk.db.Layer;
@@ -207,6 +208,13 @@ public class MapDatabase {
             return new FeatureCollection[0];
         }
         return GeoJSONFactory.createFeatureCollectionArray(json);
+    }
+
+    public void bulk(BulkData bulkData) throws IOException, RestException {
+        final String url = this.dbRestURL.substring(0, this.dbRestURL.length() - 1) + "?op=bulk";
+        final Map<String, String> param = new HashMap<String, String>();
+        param.put("data", JSON.toJSONString(bulkData));
+        HttpRestClient.doPost(url, param, useGZIP);
     }
 
     /**

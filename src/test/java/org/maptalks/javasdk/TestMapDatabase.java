@@ -7,13 +7,16 @@ import org.maptalks.geojson.CRS;
 import org.maptalks.geojson.Feature;
 import org.maptalks.geojson.FeatureCollection;
 import org.maptalks.geojson.Point;
+import org.maptalks.javasdk.db.BulkData;
 import org.maptalks.javasdk.db.DBInfo;
 import org.maptalks.javasdk.db.Layer;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.featurelayer.common.TestEnvironment;
+import org.maptalks.util.ByteStreams;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.maptalks.javasdk.Settings.TEST_DB;
@@ -46,6 +49,19 @@ public class TestMapDatabase {
     public void testInstall() throws IOException, RestException {
         MapDatabase db = new MapDatabase("localhost",TEST_PORT,TEST_DB);
         db.install(null);
+    }
+
+    @Test
+    @Ignore
+    public void testBulk() throws Exception {
+        MapDatabase db = new MapDatabase("localhost", TEST_PORT, TEST_DB);
+        Layer layer1 = new Layer();
+        layer1.setId("layer1");
+        db.addLayer(layer1);
+        InputStream in = getClass().getResourceAsStream("/dataset.json");
+        byte[] bytes = ByteStreams.toByteArray(in);
+        BulkData bulkData = BulkData.create(bytes);
+        db.bulk(bulkData);
     }
 
     @Test
