@@ -67,7 +67,7 @@ public class HttpRestClient {
 
 	/**
 	 * 根据ContentEncoding返回不同的Reader
-	 * 
+	 *
 	 * @param con
 	 * @return
 	 * @throws UnsupportedEncodingException
@@ -130,6 +130,7 @@ public class HttpRestClient {
             con.setRequestProperty("Accept-Encoding", "gzip, deflate");
             con.setRequestProperty("Content-Encoding", "gzip");
         }
+		con.setRequestProperty("Connection", "close");
 		con.setDoOutput(true);
 		con.setDoInput(true);
 		con.setUseCaches(false);
