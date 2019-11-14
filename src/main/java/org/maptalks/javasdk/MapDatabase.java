@@ -89,6 +89,14 @@ public class MapDatabase {
     }
 
     /**
+     * 刷新图层列表及各图层字段列表
+     */
+    public void refreshLayers() throws IOException, RestException {
+        final String url = this.dbRestURL + "layers?op=refresh";
+        HttpRestClient.doPost(url, null, useGZIP);
+    }
+
+    /**
      * 获取图层
      * @param id
      * @return
