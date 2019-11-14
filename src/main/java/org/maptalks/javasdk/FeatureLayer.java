@@ -9,6 +9,7 @@ import org.maptalks.javasdk.db.LayerField;
 import org.maptalks.javasdk.exceptions.InvalidLayerException;
 import org.maptalks.javasdk.exceptions.RestException;
 import org.maptalks.javasdk.http.HttpRestClient;
+import org.maptalks.javasdk.sort.SortField;
 import org.maptalks.javasdk.utils.ArrayUtils;
 import org.maptalks.javasdk.utils.JsonUtils;
 
@@ -355,6 +356,12 @@ public class FeatureLayer extends Layer {
         if (fields != null) {
             params.put("fields", ArrayUtils.join(fields));
         }
+
+        List<SortField> sortFields = queryFilter.getSortFields();
+        if (sortFields != null) {
+            params.put("sort", JsonUtils.toJsonString(sortFields));
+        }
+
         return params;
     }
 }

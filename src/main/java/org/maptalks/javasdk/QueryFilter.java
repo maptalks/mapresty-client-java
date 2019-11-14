@@ -1,6 +1,9 @@
 package org.maptalks.javasdk;
 
 import org.maptalks.geojson.CRS;
+import org.maptalks.javasdk.sort.SortField;
+
+import java.util.List;
 
 /**
  * 查询条件类
@@ -36,6 +39,11 @@ public class QueryFilter {
     private String[] resultFields;
 
     private boolean returnGeometry = true;
+
+    /**
+     * 用来排序的字段定义
+     */
+    private List<SortField> sortFields;
 
     public String getCondition() {
         return condition;
@@ -80,4 +88,11 @@ public class QueryFilter {
         this.returnGeometry = returnGeometry;
     }
 
+    public List<SortField> getSortFields() {
+        return sortFields;
+    }
+
+    public void setSortFields(List<SortField> sortFields) {
+        this.sortFields = sortFields;
+    }
 }
