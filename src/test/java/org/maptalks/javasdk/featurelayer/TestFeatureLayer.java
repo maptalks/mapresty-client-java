@@ -133,7 +133,7 @@ public class TestFeatureLayer {
             featureLayer.add(Arrays.asList(new Feature[]{f1}), null);
            fail();
         } catch (RestException e) {
-            Assert.assertEquals(e.getErrCode(), ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT);
+            Assert.assertEquals(ErrorCodes.ERRCODE_ILLEGAL_ARGUMENT, e.getErrCode());
         }
     }
 

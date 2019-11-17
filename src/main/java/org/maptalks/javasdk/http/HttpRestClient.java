@@ -3,15 +3,10 @@ package org.maptalks.javasdk.http;
 import com.alibaba.fastjson.JSON;
 import org.maptalks.javasdk.exceptions.RestException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -95,8 +90,7 @@ public class HttpRestClient {
 		if (!result.isSuccess()) {
 			throw new RestException(result.getErrCode(), result.getError());
 		}
-		final List ret = JSON.parseArray(result.getData(), clazz);
-		return ret;
+        return JSON.parseArray(result.getData(), clazz);
 	}
 
 	public static String doPost(final String url,
@@ -108,16 +102,14 @@ public class HttpRestClient {
 		final StringBuilder sb = new StringBuilder();
 		if (data != null) {
 			Set<Entry<String, String>> entrySet = data.entrySet();
-			for (Iterator<Entry<String, String>> iterator = entrySet.iterator(); iterator
-					.hasNext();) {
-				Entry<String, String> entry = iterator.next();
-				if (entry.getValue() != null) {
-					sb.append(entry.getKey());
-					sb.append("=");
-					sb.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-					sb.append("&");
-				}
-			}
+            for (Entry<String, String> entry : entrySet) {
+                if (entry.getValue() != null) {
+                    sb.append(entry.getKey());
+                    sb.append("=");
+                    sb.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    sb.append("&");
+                }
+            }
 			if (sb.length() > 0) {
 				sb.deleteCharAt(sb.length() - 1);
 			}
@@ -130,13 +122,12 @@ public class HttpRestClient {
             con.setRequestProperty("Accept-Encoding", "gzip, deflate");
             con.setRequestProperty("Content-Encoding", "gzip");
         }
-		con.setRequestProperty("Connection", "close");
+		// con.setRequestProperty("Connection", "close");
 		con.setDoOutput(true);
 		con.setDoInput(true);
 		con.setUseCaches(false);
 		con.setRequestProperty("Accept-Charset", "UTF-8");
-		con.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
+		con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         OutputStreamWriter osw = null;
         try {
             if (useGzip) {
@@ -155,14 +146,29 @@ public class HttpRestClient {
 
         StringBuilder resultBuilder = new StringBuilder();
 		// 读取返回内容
+        BufferedReader br = null;
         try {
-            final BufferedReader br = getConReader(con);
-            int temp;
-            while ((temp = br.read()) != -1) {
-                resultBuilder.append((char) temp);
+            br = getConReader(con);
+            int n;
+            char []buf = new char[4096];
+            while ((n = br.read(buf, 0, buf.length)) > 0) {
+                resultBuilder.append(buf, 0, n);
+            }
+        } catch (IOException e) {
+            InputStream es = con.getErrorStream();
+            if (es != null) {
+                byte []buf = new byte[1024];
+                // discard error content
+                while (true) {
+                    if (es.read(buf, 0, buf.length) <= 0) break;
+                }
+                es.close();
             }
         } finally {
-            con.disconnect();
+            // con.disconnect();
+            if (br != null) {
+                br.close();
+            }
         }
 
 		RestResult result = JSON.parseObject(resultBuilder.toString(), RestResult.class);
